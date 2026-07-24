@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美年大健康 · 智能体检套餐</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background: linear-gradient(145deg, #f0f4fa 0%, #e6edf6 100%); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif; padding:20px 16px 80px; color:#1e293b; min-height:100vh; }
+        .container { max-width:1440px; margin:0 auto; position:relative; }
+
+        .brand-badge-bottom {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            background: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            padding: 6px 24px 6px 10px;
+            border-radius: 60px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,215,150,0.20);
+            font-size: 16px;
+            color: #1a1a1a;
+            letter-spacing: 3px;
+            text-shadow: 0 1px 2px rgba(255, 215, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            font-family: 'STZhuan', '华文篆书', 'FZXiaoZhuanTi', 'Ma Shan Zheng', 'cursive';
+        }
+        .brand-badge-bottom .divider { color: #D4AF37; opacity:0.6; font-weight:600; margin:0 4px; }
+        .brand-badge-bottom .icon { color: #D4AF37;font-size:14px; margin-left:4px; opacity:0.9; }
+        @media (max-width:640px) {
+            .brand-badge-bottom { font-size:13px; padding:4px 16px; gap:4px; flex-wrap:wrap; justify-content:center; white-space:normal; }
+        }
+
+        @keyframes swingAvatar {
+            0%   { transform: rotate(-12deg); }
+            50%  { transform: rotate(12deg); }
+            100% { transform: rotate(-12deg); }
+        }
+        .brand-badge-bottom img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.15);
+            margin-right: -4px;
+            filter: brightness(1) contrast(1.05);
+            animation: swingAvatar 1.5s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        .header { display:flex; align-items:center; gap:14px; margin-bottom:24px; flex-wrap:wrap; background:rgba(255,255,255,0.6); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); padding:12px 24px; border-radius:60px; box-shadow:0 2px 12px rgba(0,0,0,0.04); border:1px solid rgba(255,255,255,0.7); }
+        .header h1 { font-size:24px; font-weight:600; color:#0b2b4a; display:flex; align-items:center; gap:8px; flex:1; }
+        .header h1 .icon-med { font-size:28px; background:linear-gradient(135deg,#1a6bb0,#3a8fd4); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+        .header h1 small { font-size:14px; font-weight:400; color:#5f7d9c; -webkit-text-fill-color:#5f7d9c; }
+        .tab-bar { display:flex; gap:4px; background:rgba(255,255,255,0.5); padding:4px; border-radius:40px; border:1px solid rgba(255,255,255,0.8); margin-left:auto; }
+        .tab-btn { padding:8px 22px; border:none; background:transparent; border-radius:30px; font-size:14px; font-weight:500; cursor:pointer; transition:0.2s; color:#5f7d9c; }
+        .tab-btn.active { background:#1a6bb0; color:#fff; box-shadow:0 2px 8px rgba(26,107,176,0.25); }
+        .tab-btn:hover:not(.active) { background:rgba(255,255,255,0.6); }
+        .tab-btn.rules-tab { background:linear-gradient(135deg,#8b5cf6,#7c3aed); color:#fff; box-shadow:0 2px 8px rgba(124,58,237,0.25); }
+        .tab-btn.rules-tab:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(124,58,237,0.35); }
+        .tab-btn.rules-tab.active { background:linear-gradient(135deg,#7c3aed,#6d28d9); box-shadow:0 2px 12px rgba(124,58,237,0.4); }
+
+        .tab-content { display:none; animation:fade 0.25s ease; }
+        .tab-content.active { display:block; }
+        @keyframes fade { 0%{opacity:0.6;transform:translateY(4px);} 100%{opacity:1;transform:translateY(0);} }
+
+        .card { background:rgba(255,255,255,0.85); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-radius:24px; box-shadow:0 8px 32px rgba(0,20,40,0.08), 0 2px 8px rgba(0,0,0,0.02); padding:20px 24px 24px; border:1px solid rgba(255,255,255,0.6); margin-top:4px; transition:box-shadow 0.3s; }
+        .card:hover { box-shadow:0 12px 40px rgba(0,20,40,0.12); }
+        .card-header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px; }
+        .card-header h2 { font-size:20px; font-weight:600; color:#1a3a5c; display:flex; align-items:center; gap:10px; }
+        .card-header h2 .icon-header { font-size:24px; color:#1a6bb0; }
+        .table-wrap {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: auto;
+            min-height: 0;
+            margin-top: 6px;
+            padding: 12px 16px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.3);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+            transition: box-shadow 0.3s;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 4px;
+            font-size: 13px;
+            background: transparent;
+            border-radius: 12px;
+        }
+        table th {
+            background: #f7fafc;
+            color: #1a3a5c;
+            font-weight: 600;
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 2px solid #d0d9e5;
+            white-space: nowrap;
+            font-size: 12px;
+            letter-spacing: 0.3px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        table tr {
+            background: #fff;
+            border-radius: 10px;
+            transition: all 0.25s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        table td {
+            padding: 12px 10px;
+            border-bottom: none;
+            vertical-align: middle;
+            background: transparent;
+        }
+        table tr:hover {
+            background: #fafcff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,20,40,0.08);
+            border-radius: 10px;
+        }
+        table tr:last-child {
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        .badge { background:linear-gradient(135deg,#e5eff9,#d4e2f0); color:#1a5a9c; font-size:13px; padding:2px 14px; border-radius:30px; font-weight:500; box-shadow:inset 0 1px 2px rgba(255,255,255,0.6); }
+        .toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.8);
+            border: 1px solid #d0d9e5;
+            border-radius: 40px;
+            padding: 0 16px;
+            min-width: 320px;
+            transition: 0.3s;
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+        }
+        .search-box:focus-within {
+            border-color: #1a6bb0;
+            box-shadow: 0 0 0 3px rgba(26,107,176,0.12);
+            background: #fff;
+            z-index: 1001;
+        }
+        .search-box input { border:none; background:transparent; padding:10px 6px; font-size:14px; flex:1; outline:none; color:#1e293b; }
+        .search-box input::placeholder { color:#94a9c2; }
+        .search-box .icon { color:#7a95b0; font-size:18px; line-height:1; margin-right:4px; }
+
+        .search-results {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            max-height: 60vh;
+            overflow-y: auto;
+            z-index: 2000;
+            display: none;
+            border: 1px solid rgba(255,255,255,0.3);
+            width: 480px;
+            max-width: 92vw;
+            backdrop-filter: blur(8px);
+        }
+        .search-results.show { display:block; }
+        .search-results .item {
+            display: block;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f5f9;
+            transition: 0.1s;
+        }
+        .search-results .item:hover { background:#f0f7ff; }
+        .search-results .item.active { background:#e0edff; }
+        .search-results .item .name {
+            font-weight: 500;
+            font-size: 13px;
+            word-wrap: break-word;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+        .search-results .item .name .highlight { background:#ffeb3b; color:#000; }
+        .search-results .item .code {
+            font-size: 11px;
+            color: #7a95b0;
+            margin-top: 2px;
+        }
+        .search-results .item .price-tag {
+            font-size: 12px;
+            color: #1a6bb0;
+            background: #e5eff9;
+            padding: 2px 12px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 2px;
+        }
+
+        .btn { padding:8px 20px; border-radius:40px; border:none; font-weight:500; font-size:14px; cursor:pointer; transition:0.2s; display:inline-flex; align-items:center; gap:6px; background:rgba(238,243,248,0.8); backdrop-filter:blur(4px); color:#1a3a5c; border:1px solid rgba(255,255,255,0.3); }
+        .btn-primary { background:linear-gradient(135deg,#1a6bb0,#2a7de1); color:#fff; border:none; box-shadow:0 4px 12px rgba(26,107,176,0.25); }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(26,107,176,0.35); }
+        .btn-success { background:linear-gradient(135deg,#0f7b3e,#1a9c54); color:#fff; border:none; box-shadow:0 4px 12px rgba(15,123,62,0.25); }
+        .btn-success:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(15,123,62,0.35); }
+        .btn-danger { background:linear-gradient(135deg,#c73a3a,#e04a4a); color:#fff; border:none; }
+        .btn-danger:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(199,58,58,0.3); }
+        .btn-outline { background:transparent; border:1px solid #cbd5e1; backdrop-filter:none; }
+        .btn-outline:hover { background:rgba(255,255,255,0.5); }
+        .btn-sm { padding:4px 14px; font-size:13px; }
+
+        .table-wrap { overflow-x:auto; margin-top:6px; border-radius:16px; background:rgba(255,255,255,0.3); padding:2px; }
+        table { width:100%; border-collapse:collapse; font-size:13px; background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.02); min-width: 900px; }
+        table th { background:#f7fafc; color:#1a3a5c; font-weight:600; padding:12px 10px; text-align:left; border-bottom:2px solid #d0d9e5; white-space:nowrap; font-size:12px; letter-spacing:0.3px; position:sticky; top:0; z-index:10; }
+        table td { padding:10px 10px; border-bottom:1px solid #eef2f6; vertical-align:middle; }
+        table tr:last-child td { border-bottom:none; }
+        table tr:hover td { background:#fafcff; }
+
+        .col-code { min-width:100px; color:#607d8b; font-size:12px; }
+        .col-name { min-width:150px; font-weight:500; }
+        .col-items { min-width:130px; color:#3d5a78; font-size:12px; }
+        .col-meaning { min-width:170px; color:#4a6a8a; font-size:12px; line-height:1.4; }
+        .col-price { min-width:65px; text-align:center; font-weight:500; }
+        .col-remark { min-width:100px; font-size:12px; color:#7a8fa8; }
+        .col-action { min-width:55px; text-align:center; }
+
+        .price-male { color:#1a5a9c; }
+        .price-female { color:#b13a7a; }
+        .no-discount-tag { background:#fef3c7; color:#9b6b0a; font-size:10px; padding:1px 12px; border-radius:30px; display:inline-block; font-weight:500; }
+
+        .footer-row td { background:#f7fafc !important; font-weight:600; border-top:2px solid #d0d9e5; }
+        .footer-row-mandatory td { background:#fff3e0 !important; color:#b15a1a; }
+        .footer-row-free td { background:#f0f7ee !important; color:#1f6b3a; }
+        .footer-row-total td { background:#eaf1fa !important; font-size:15px; }
+        .footer-row-discount td { background:#fef9e7 !important; }
+        .footer-row-special td { background: #f5f3ff !important; color: #5b21b6; font-weight: 600; }
+
+        .footer-row input { width:100px; padding:6px 10px; border:1px solid #cbd5e1; border-radius:8px; font-size:14px; text-align:center; font-weight:600; background:#fff; direction:ltr; }
+        .footer-row input:focus { border-color:#1a6bb0; outline:none; box-shadow:0 0 0 3px rgba(26,107,176,0.12); }
+        .discount-rate { font-size:18px; font-weight:700; color:#1a5a9c; }
+        .discount-rate.good { color:#0f7b3e; }
+        .discount-rate.bad { color:#b13a3a; }
+
+        .editable-input { border:1px solid transparent; background:transparent; padding:4px 6px; border-radius:6px; font-size:13px; width:100%; transition:0.15s; color:#1e293b; }
+        .editable-input:hover { background:#f8fafc; border-color:#d0d9e5; }
+        .editable-input:focus { background:#fff; border-color:#1a6bb0; outline:none; box-shadow:0 0 0 3px rgba(26,107,176,0.08); }
+        .editable-input.price-input { text-align:center; font-weight:500; width:70px; }
+        .price-input-sm { width:62px; padding:4px 4px; border:1px solid #d0d9e5; border-radius:6px; text-align:center; font-size:13px; font-weight:500; background:#fff; transition:0.15s; }
+        .price-input-sm:focus { border-color:#1a6bb0; outline:none; box-shadow:0 0 0 3px rgba(26,107,176,0.08); }
+        .price-input-sm:hover { background:#f8fafc; }
+
+        .empty-state { text-align:center; padding:40px 20px; color:#7a95b0; }
+        .master-search { margin-bottom:14px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+        .master-search input { padding:8px 18px; border:1px solid #d0d9e5; border-radius:40px; font-size:14px; flex:1; min-width:200px; outline:none; background:rgba(255,255,255,0.7); backdrop-filter:blur(4px); transition:0.2s; }
+        .master-search input:focus { border-color:#1a6bb0; background:#fff; box-shadow:0 0 0 3px rgba(26,107,176,0.08); }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 360px;
+        }
+        .toast-item {
+            background: #1a2a3a;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            font-size: 14px;
+            animation: slideIn 0.3s ease;
+            border-left: 4px solid #4fc3f7;
+        }
+        .toast-item.success { border-left-color: #66bb6a; }
+        .toast-item.info { border-left-color: #42a5f5; }
+        @keyframes slideIn {
+            from { opacity:0; transform: translateX(40px); }
+            to { opacity:1; transform: translateX(0); }
+        }
+
+        .scheme-toolbar {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .scheme-toolbar select {
+            padding: 4px 10px;
+            border-radius: 30px;
+            border: 1px solid #d0d9e5;
+            background: #fff;
+            font-size: 13px;
+            max-width: 140px;
+        }
+
+        /* ===== 新增：必加项规则弹窗样式 ===== */
+        .rules-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .rules-overlay.show { display: flex; }
+        .rules-modal {
+            background: #fff;
+            border-radius: 24px;
+            max-width: 960px;
+            width: 100%;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+            animation: modalIn 0.3s ease;
+        }
+        @keyframes modalIn {
+            from { opacity:0; transform: scale(0.95) translateY(20px); }
+            to { opacity:1; transform: scale(1) translateY(0); }
+        }
+        .rules-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 28px 16px 28px;
+            border-bottom: 2px solid #f1f5f9;
+            flex-shrink: 0;
+        }
+        .rules-modal-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a3a5c;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .rules-modal-header h3 .icon-rules { color: #7c3aed; }
+        .rules-modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: #f1f5f9;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            transition: 0.2s;
+        }
+        .rules-modal-close:hover { background: #e2e8f0; color: #1e293b; }
+        .rules-modal-body {
+            padding: 20px 28px 28px 28px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .rules-modal-body .rules-table-wrap {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid #eef2f6;
+        }
+        .rules-modal-body table.rules-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            background: #fff;
+            min-width: 600px;
+        }
+        .rules-modal-body table.rules-table th {
+            background: #f7fafc;
+            color: #1a3a5c;
+            font-weight: 600;
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 2px solid #d0d9e5;
+            font-size: 12px;
+            letter-spacing: 0.3px;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+        .rules-modal-body table.rules-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #eef2f6;
+            vertical-align: middle;
+            line-height: 1.5;
+        }
+        .rules-modal-body table.rules-table tr:last-child td { border-bottom: none; }
+        .rules-modal-body table.rules-table .code-cell {
+            font-family: monospace;
+            font-size: 12px;
+            color: #607d8b;
+            white-space: nowrap;
+        }
+        .rules-modal-body table.rules-table .name-cell { font-weight: 500; }
+        .rules-modal-body table.rules-table .rule-cell { color: #334155; }
+        .rules-modal-body table.rules-table .tag-required {
+            display: inline-block;
+            background: #fef3c7;
+            color: #9b6b0a;
+            font-size: 10px;
+            padding: 1px 10px;
+            border-radius: 30px;
+            font-weight: 500;
+            margin-left: 6px;
+        }
+        .rules-modal-body table.rules-table .tag-optional {
+            display: inline-block;
+            background: #e5eff9;
+            color: #1a5a9c;
+            font-size: 10px;
+            padding: 1px 10px;
+            border-radius: 30px;
+            font-weight: 500;
+            margin-left: 6px;
+        }
+        .rules-modal-body .rules-note {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #64748b;
+            border-left: 3px solid #7c3aed;
+        }
+        .rules-modal-body .rules-note strong { color: #1a3a5c; }
+        @media (max-width:768px) {
+            .rules-modal { max-width: 100%; margin: 10px; max-height: 90vh; }
+            .rules-modal-header { padding: 16px 20px 12px 20px; }
+            .rules-modal-header h3 { font-size: 17px; }
+            .rules-modal-body { padding: 16px 20px 20px 20px; }
+            .rules-modal-body table.rules-table { font-size: 12px; min-width: 480px; }
+            .rules-modal-body table.rules-table th,
+            .rules-modal-body table.rules-table td { padding: 8px 10px; }
+        }
+        /* ===== 必加项规则弹窗样式结束 ===== */
+
+        @media (max-width:768px) {
+            .header { flex-direction:column; align-items:stretch; padding:16px; border-radius:30px; }
+            .tab-bar { margin-left:0; }
+            .card { padding:16px; }
+            .search-box { min-width:100%; }
+            .toolbar { flex-direction:column; align-items:stretch; }
+            .card-header { flex-direction:column; align-items:stretch; }
+            table { font-size:12px; }
+            table th, table td { padding:6px 4px; }
+            .col-meaning { min-width:100px; }
+            .footer-row input { width:70px; }
+            .price-input-sm { width:50px; }
+            .search-results { width:95vw; left:50%; transform:translateX(-50%); }
+            .search-results .item .name { max-width: none; }
+            .scheme-toolbar { flex-wrap:wrap; }
+        }
+        html, body {
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            padding: 20px 16px 80px;
+        }
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+            overflow: hidden;
+        }
+        .tab-content.active {
+            display: flex !important;
+        }
+        .tab-content .card {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            overflow: hidden;
+            padding-bottom: 8px;
+        }
+        .table-wrap {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: auto;
+            min-height: 0;
+            margin-top: 6px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.3);
+            padding: 2px;
+        }
+        .master-search {
+            flex-shrink: 0;
+            margin-bottom: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="brand-badge-bottom">
+        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='36' height='36'><circle cx='18' cy='18' r='18' fill='%23b0b8c4'/></svg>" alt="头像">
+        <span>出品</span>
+        <span class="divider">·</span>
+        <span>原创专属</span>
+        <span class="divider">·</span>
+        <span>未经许可禁止使用</span>
+        <span class="icon">🔒</span>
+    </div>
+
+    <div class="header">
+        <h1><span class="icon-med">🧬</span> 美年大健康 · 智能体检套餐 <small>石家庄</small></h1>
+        <div class="tab-bar">
+            <button class="tab-btn active" data-tab="package">📋 套餐定制</button>
+            <button class="tab-btn rules-tab" id="rulesTabBtn">📋 必加项规则</button>
+            <button class="tab-btn" data-tab="master">📚 项目总表</button>
+        </div>
+    </div>
+
+    <div id="tab-package" class="tab-content active">
+        <div class="card">
+            <div class="card-header">
+                <h2><span class="icon-header">📋</span> 套餐定制 <span class="badge" id="selectedCount">已选 0 项</span></h2>
+                <div class="toolbar">
+                    <div class="search-box">
+                        <span class="icon">🔍</span>
+                        <input type="text" id="searchInput" placeholder="点击输入框显示全部 · 输入模糊搜索" autocomplete="off">
+                        <div class="search-results" id="searchResults"></div>
+                    </div>
+                    <div class="scheme-toolbar">
+                        <button class="btn btn-success btn-sm" id="saveSchemeBtn">💾 保存方案</button>
+                        <select id="schemeSelect" style="padding:4px 10px;border-radius:30px;border:1px solid #d0d9e5;background:#fff;font-size:13px;max-width:140px;">
+                            <option value="">加载方案</option>
+                        </select>
+                        <button class="btn btn-danger btn-sm" id="deleteSchemeBtn" style="padding:2px 8px;font-size:12px;">✕</button>
+                    </div>
+                    <button class="btn btn-outline btn-sm" id="clearAllBtn">🗑️ 清空</button>
+                    <button class="btn btn-primary btn-sm" id="downloadBtn">⬇️ 下载套餐</button>
+                </div>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr>
+                        <th style="width:32px;">#</th>
+                        <th style="width:110px;">项目编码</th>
+                        <th class="col-name">项目名称</th>
+                        <th class="col-items">体检细项</th>
+                        <th class="col-meaning">临床意义</th>
+                        <th class="col-price price-male">👨 男</th>
+                        <th class="col-price price-female">👩 未婚女</th>
+                        <th class="col-price price-female">👩 已婚女</th>
+                        <th class="col-action">操作</th>
+                    </tr></thead>
+                    <tbody id="packageBody"></tbody>
+                    <tfoot id="packageFoot"></tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-master" class="tab-content">
+        <div class="card">
+            <div class="card-header">
+                <h2><span class="icon-header">📚</span> 全部体检项目总表 <span class="badge" id="masterCount">0 项</span></h2>
+                <div class="toolbar">
+                    <button class="btn btn-success btn-sm" id="addMasterBtn">➕ 新增</button>
+                    <button class="btn btn-outline btn-sm" id="resetMasterBtn">↻ 恢复默认</button>
+                    <button class="btn btn-outline btn-sm" id="exportDataBtn">📤 导出JSON</button>
+                    <button class="btn btn-outline btn-sm" id="importDataBtn">📥 导入JSON</button>
+                    <span class="sync-status" style="font-size:13px;color:#5f7d9c;display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:#22a65a;display:inline-block;"></span> 自动同步</span>
+                </div>
+            </div>
+            <div class="master-search">
+                <input type="text" id="masterSearchInput" placeholder="🔍 在总表中搜索...">
+            </div>
+            <div class="table-wrap">
+                <table id="masterTable">
+                    <thead><tr>
+                        <th style="width:32px;">#</th>
+                        <th style="width:110px;">项目编码</th>
+                        <th class="col-name">项目名称</th>
+                        <th class="col-items">细项（逗号分隔）</th>
+                        <th class="col-meaning">临床意义</th>
+                        <th class="col-price price-male">👨 男价</th>
+                        <th class="col-price price-female">👩 未婚女</th>
+                        <th class="col-price price-female">👩 已婚女</th>
+                        <th class="col-remark">备注</th>
+                        <th class="col-action" style="width:65px;">操作</th>
+                    </tr></thead>
+                    <tbody id="masterBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ===== 新增：必加项规则弹窗 ===== -->
+<div class="rules-overlay" id="rulesOverlay">
+    <div class="rules-modal">
+        <div class="rules-modal-header">
+            <h3><span class="icon-rules">📋</span> 2026年套餐必备组合项目和导入规则</h3>
+            <button class="rules-modal-close" id="rulesCloseBtn">✕</button>
+        </div>
+        <div class="rules-modal-body">
+            <div class="rules-table-wrap">
+                <table class="rules-table">
+                    <thead>
+                        <tr>
+                            <th style="width:22%;">项目代码</th>
+                            <th style="width:34%;">导入项目名称</th>
+                            <th style="width:44%;">导入规则</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rulesTableBody"></tbody>
+                </table>
+            </div>
+            <div class="rules-note">
+                <strong>💡 说明：</strong> 以上规则基于折后价判断，部分项目存在互选或解绑关系，
+                请根据套餐实际金额和项目组合合理配置。
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// ★★★ 云同步配置（必填） ★★★
+const SYNC_CONFIG = {
+  apiUrl: 'https://lesgo6.3285594521.workers.dev', // 你的 Worker 地址
+  authKey: 'health2024', // 你的 AUTH_KEY 密码
+  syncInterval: 5000 // 5秒同步一次
+};
+
+// ★★★ 云同步核心代码 ★★★
+const CloudSync = {
+  lastTimestamp: 0,
+  async load() {
+    try {
+      const res = await fetch(`${SYNC_CONFIG.apiUrl}/api/data`, {
+        headers: { 'X-Auth-Key': SYNC_CONFIG.authKey }
+      });
+      if (!res.ok) return null;
+      const result = await res.json();
+      if (result.timestamp > this.lastTimestamp) {
+        this.lastTimestamp = result.timestamp;
+        return result.data;
+      }
+      return null;
+    } catch (e) { return null; }
+  },
+  async save(data) {
+    try {
+      const res = await fetch(`${SYNC_CONFIG.apiUrl}/api/data`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Auth-Key': SYNC_CONFIG.authKey },
+        body: JSON.stringify({ data })
+      });
+      if (!res.ok) return false;
+      const result = await res.json();
+      this.lastTimestamp = result.timestamp;
+      return true;
+    } catch (e) { return false; }
+  },
+  timer: null,
+  scheduleSave(data) {
+    if (this.timer) clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.save(data), 1000);
+  }
+};
+
+// ============================================================
+// 完整初始数据
+// ============================================================
+const INIT_DATA = [
+    { id: 'G23030234503', name: '一般检查', items: ['身高','体重','体重指数','收缩压','舒张压','脉搏'], priceM:5, priceF:5, priceFM:5, meaning:'身高 、体重、血压基本健康状态参数，了解体重是否正常，有无体重不足、超重或肥胖，为相关科室的诊断提供依据。', remark:'', noDiscount:false },
+    { id: 'G23030234500', name: '内科常规检查', items: ['既往史','家族史','胸廓','心脏','肺','肝','胆','脾','肾','腹壁','膝反射','腰围','臀围','腰臀比','其他'], priceM:10, priceF:10, priceFM:10, meaning:'腰围；心肺有无异常、肝脾肾有无肿大、腹部有无包块等。', remark:'', noDiscount:false },
+    { id: 'G23031744290', name: '外科常规检查(男)', items: ['既往史','前列腺','肛门指检','皮肤','浅表淋巴结','甲状腺','乳房','脊柱','四肢关节','外生殖器','其他'], priceM:20, priceF:null, priceFM:null, meaning:'淋巴结有无肿大，甲状腺、乳房、外生殖器、前列腺、肛肠有无异常、四肢脊柱有无畸形等。', remark:'', noDiscount:false },
+    { id: 'G23030234502', name: '外科常规检查(女)', items: ['既往史','肛门指检','皮肤','浅表淋巴结','甲状腺','乳房','脊柱','四肢关节','其他'], priceM:null, priceF:20, priceFM:20, meaning:'淋巴结有无肿大，甲状腺、乳房、肛肠有无异常、四肢脊柱有无畸形等。', remark:'', noDiscount:false },
+    { id: 'G2308240025', name: '腰围/臀围/腰臀比值', items: ['腰围/臀围/腰臀比值'], priceM:0, priceF:0, priceFM:0, meaning:'腰围/臀围/腰臀比值', remark:'', noDiscount:false },
+    { id: 'G23030234504', name: '肛门指检（男）', items: ['前列腺','肛门指检'], priceM:15, priceF:null, priceFM:null, meaning:'用于检查肛门、直肠的局部病变。', remark:'', noDiscount:false },
+    { id: 'G23031744291', name: '肛门指检（女）', items: ['肛门指检'], priceM:null, priceF:15, priceFM:15, meaning:'用于检查肛门、直肠的局部病变。', remark:'', noDiscount:false },
+    { id: 'G23042468945', name: '视力、辨色力', items: ['裸眼视力-左眼、右眼','矫正视力-左眼、右眼','色觉'], priceM:6, priceF:6, priceFM:6, meaning:'主要检查测视力、色觉等。', remark:'', noDiscount:false },
+    { id: 'G2403250057', name: '眼科常规-裂隙灯', items: ['既往史','眼睑','泪器','结膜','巩膜','眼球','角膜','前房','虹膜','瞳孔','晶状体','玻璃体','其他'], priceM:20, priceF:20, priceFM:20, meaning:'检查眼角膜和晶状体有无病变（如白内障）等', remark:'', noDiscount:false },
+    { id: 'G23032951175', name: '眼底', items: ['视乳头','黄斑','视网膜'], priceM:20, priceF:20, priceFM:20, meaning:'通过眼底镜检查了解眼底检查有无黄斑变性和动脉硬化等。', remark:'', noDiscount:false },
+    { id: 'G23042468939', name: '眼科检查（眼压）', items: ['眼压-左眼、右眼'], priceM:20, priceF:20, priceFM:20, meaning:'眼压就是眼球内部的压力，简称为眼压。它是眼内容物对眼球壁施加的均衡压力。 正常人的眼压稳定在一定范围内，以维持眼球的正常形态，同时保证了屈光间质发挥最大的光学性能。正常眼压的范围为1.47～2.79kPa（11～21mmHg)。检测眼球内部压力的情况。', remark:'', noDiscount:false },
+    { id: 'G23030234508', name: '眼底照相+AI阅片', items: ['眼底照相+AI阅片'], priceM:60, priceF:60, priceFM:60, meaning:'常见眼底疾病筛查，如糖尿病视网膜病变如糖尿病视网膜病变 、老年性眼底病变老年性眼底病变、高血压眼底病变高血压眼底病变 。也能对全身系统疾病进行预警也能对全身系统疾病进行预警，如高血压如高血压、脑中风脑中风、冠心病等冠心病等 。', remark:'', noDiscount:false },
+    { id: 'G23030234508', name: '眼底照相+AI阅片', items: ['眼底照相+AI阅片'], priceM:20, priceF:20, priceFM:20, meaning:'常见眼底疾病筛查，如糖尿病视网膜病变如糖尿病视网膜病变 、老年性眼底病变老年性眼底病变、高血压眼底病变高血压眼底病变 。也能对全身系统疾病进行预警也能对全身系统疾病进行预警，如高血压如高血压、脑中风脑中风、冠心病等冠心病等 。', remark:'必加项优惠', noDiscount:false },
+    { id: 'G23030234505', name: '耳鼻喉科检查', items: ['既往史','耳廓','外耳道','鼓膜','乳突','鼻外形','鼻中隔','鼻甲','鼻腔黏膜','鼻窦','悬雍垂','扁桃体','咽部黏膜','其他'], priceM:10, priceF:10, priceFM:10, meaning:'耳、鼻、咽、喉有无异常，如中耳炎、鼓膜穿孔、扁桃体肿大等。', remark:'', noDiscount:false },
+    { id: 'GP230303388', name: '电测听', items: ['电测听'], priceM:60, priceF:60, priceFM:60, meaning:'客观评价听觉系统的功能状态。', remark:'长安不做', noDiscount:false },
+    { id: 'G23030234509', name: '口腔科常规检查', items: ['既往史','口腔黏膜','牙龈','牙周','龋齿','缺齿','牙齿松动','义齿','颞下颌关节','腮腺','舌','其他'], priceM:0, priceF:0, priceFM:0, meaning:'通过检查可对龋齿、牙龈炎、牙周炎进行早期检查，同时提供口腔保健指导。', remark:'', noDiscount:false },
+    { id: 'G23030234515', name: '十二导联静态心电图', items: ['常规心电图检查（12导联）'], priceM:20, priceF:20, priceFM:20, meaning:'检查有无心律失调、心肌缺血、心肌梗死、心脏扩大等心电改变。', remark:'', noDiscount:false },
+    { id: 'G23030234516', name: '24小时动态心电图', items: ['24小时动态心电图'], priceM:260, priceF:260, priceFM:260, meaning:'1.对心律失常及心肌缺血的定性、定量诊断。 2.对阵发性晕厥、眩晕和心悸原因及性质的确定。 3.评价心脏病患者预后。 4.评估心脏病患者日常生活能力。 5.抗心律失常和治疗心肌缺血药物疗效评价。 6.起搏器功能评定。', remark:'', noDiscount:false },
+    { id: 'GP230303392', name: '人体成分分析', items: ['人体成分分析'], priceM:80, priceF:80, priceFM:80, meaning:'通过对体脂肪、内脏脂肪、肌肉量、水分总量、腰臀比及基础代谢等参数测量，评价人体健康、营养状态。', remark:'', noDiscount:false },
+    { id: 'GP230303387', name: '肺通气功能检查', items: ['肺功能'], priceM:60, priceF:60, priceFM:60, meaning:'了解肺功能状况。', remark:'', noDiscount:false },
+    { id: 'GP230303390', name: '动脉硬化检测', items: ['动脉硬化检测'], priceM:120, priceF:120, priceFM:120, meaning:'评估血管功能，是否存在动脉硬化等。', remark:'', noDiscount:false },
+    { id: 'G23030334746', name: '肝纤维化检测定量', items: ['肝脏瞬时弹性成像检查'], priceM:120, priceF:120, priceFM:120, meaning:'检测肝脏弹性硬度值和脂肪衰减，评估肝脏纤维化程度和肝脏脂肪含量。量化检测肝脏软硬纤维化和脂肪含量。精准深入检测实现肝脏健康早期预防筛查。', remark:'', noDiscount:false },
+    { id: 'GP230303389', name: '颅内多普勒血流图(TCD)', items: ['经颅多普勒'], priceM:90, priceF:90, priceFM:90, meaning:'检查颅内动脉血管情况，协助诊断颅内动脉及椎动脉等有无狭窄和闭塞、脑血管痉挛等问题。', remark:'', noDiscount:false },
+    { id: 'G2504140018', name: '中医舌象图检查', items: ['中医舌象图检查'], priceM:30, priceF:30, priceFM:30, meaning:'通过舌象图检查，判断人体的气血状况以及病邪的性质和程度，为辨证和制定调养方案提供重要参考。', remark:'', noDiscount:false },
+    { id: 'G2504140017', name: '中医脉象图检查', items: ['中医脉象图检查'], priceM:30, priceF:30, priceFM:30, meaning:'脉象的变化可以反映人体的生理和病理状态，了解五脏六腑的功能状态，推断疾病的进退预后。', remark:'', noDiscount:false },
+    { id: 'G2504140022', name: '中医智能问诊', items: ['中医智能问诊'], priceM:15, priceF:15, priceFM:15, meaning:'中医智能问诊可以大大提高诊断的准确性和效率。更加全面地了解受检者的体质特点，为个体辨证和个性化调理方案提供重要依据。', remark:'', noDiscount:false },
+    { id: 'G2504140024', name: '中医智能体检报告', items: ['中医智能体检报告'], priceM:40, priceF:40, priceFM:40, meaning:'中医智能体检报告可以为医生提供更加全面和客观的中医四诊信息，帮助受检者更好地了解自身身体状况。将辨病与辨证结合，精准识别证候特点，中西医结合预测潜在疾病风险，提供个性化健康建议和调理方案。', remark:'', noDiscount:false },
+    { id: 'G2603260040', name: '中医诊脉+问诊', items: ['中医诊脉+问诊'], priceM:0, priceF:0, priceFM:0, meaning:'', remark:'1000元以上美兆赠送', noDiscount:false },
+    { id: 'G2603260040', name: '中医诊脉+问诊', items: ['中医诊脉+问诊'], priceM:30, priceF:30, priceFM:30, meaning:'', remark:'', noDiscount:false },
+    { id: 'G2304280506', name: '全心功能血流动力检测', items: ['全心功能血流动力检测'], priceM:160, priceF:160, priceFM:160, meaning:'能够对心血管病风险进行早期的评估，并对亚健康状态人群心血管病的潜在危险因素进行早期风险提示，如高血压、动脉硬化、冠心病、肺心病、心衰、心肌炎等，并给予合理的饮食指导和生活方式建议。', remark:'', noDiscount:false },
+    { id: 'G23030234530', name: '非牵拉式胶囊胃镜', items: ['非牵拉式胶囊胃镜'], priceM:1499, priceF:1499, priceFM:1499, meaning:'无创伤、无感染、无辐射、无死角、无痛感、无风险，通过微型摄像机在消化道内进行连续拍摄图片，最后进行分析和诊断。', remark:'优惠价1499元（无折扣）', noDiscount:true },
+    { id: 'GP230302360', name: '血常规-5分类', items: ['白细胞计数','中性粒细胞百分数','淋巴细胞百分数','单核细胞百分数','嗜酸性粒细胞百分数','嗜碱性粒细胞百分数','中性粒细胞绝对值','淋巴细胞绝对值','单核细胞绝对值','嗜酸性粒细胞绝对值','嗜碱性粒细胞绝对值','红细胞计数','血红蛋白','红细胞比容','红细胞平均体积','平均血红蛋白含量','平均血红蛋白浓度','红细胞分布宽度-标准差','红细胞分布宽度-变异系数','血小板计数','平均血小板体积','血小板压积','血小板分布宽度','大血小板比率','大血小板数'], priceM:25, priceF:25, priceFM:25, meaning:'了解血液方面的情况，及时及时发现如感染、贫血和其它血液疾病。', remark:'', noDiscount:false },
+    { id: 'GP230302361', name: 'ABO血型鉴定', items: ['ABO血型鉴定'], priceM:15, priceF:15, priceFM:15, meaning:'检测血型，红细胞血型分为O型、A型、B型、AB型等四型。', remark:'', noDiscount:false },
+    { id: 'GP230302362', name: 'Rh血型检查', items: ['Rh血型检查'], priceM:20, priceF:20, priceFM:20, meaning:'检测血型。', remark:'', noDiscount:false },
+    { id: 'GP230302368', name: '尿液分析', items: ['尿白细胞酯酶','尿酮体','尿亚硝酸盐','尿胆原','尿胆红素','尿蛋白质','尿葡萄糖','尿比重','尿隐血','尿酸碱度','尿维生素C','尿液颜色','尿透明度','尿白细胞（镜检）','尿红细胞（镜检）','尿结晶（镜检）','尿管型（镜检）','尿上皮细胞（镜检）','尿其它'], priceM:10, priceF:10, priceFM:10, meaning:'可提示有无泌尿系统疾患：如急、慢性肾炎，肾盂肾炎，膀胱炎，尿道炎，肾病综合征，狼疮性肾炎，血红蛋白尿，肾梗塞、肾小管重金属盐及药物导致急性肾小管坏死，肾或膀胱肿瘤以及有无尿糖等', remark:'', noDiscount:false },
+    { id: 'GP230302372', name: '尿妊娠试验', items: ['尿特异人绒毛膜促性腺激素试验'], priceM:null, priceF:10, priceFM:10, meaning:'早孕诊断：受孕10天尿中即可检出，葡萄胎、绒癌时，尿中HCG显著增高', remark:'', noDiscount:false },
+    { id: 'G2412300010', name: '尿11-脱氢血栓烷B2/尿肌酐', items: ['尿11-脱氢血栓烷B2','尿11-脱氢血栓烷B2/尿肌酐(计算值)'], priceM:360, priceF:360, priceFM:360, meaning:'血小板活化的敏感标志物，11-脱氢血栓烷B2产生在血栓形成的第一步，能够更早、更直接的预警血栓风险。', remark:'特殊项目', noDiscount:false },
+    { id: 'G2503140066', name: '早期肾损伤三项', items: ['尿肌酐','尿微量白蛋白','尿微量白蛋白/尿肌酐(计算值)'], priceM:35, priceF:35, priceFM:35, meaning:'肾小球早期损伤的敏感指标，是肾脏损伤、慢性肾病的临床诊断指标。通过精准定量检测尿液中特定蛋白成分能够超早期发现慢性肾病。', remark:'特殊项目', noDiscount:false },
+    { id: 'G2412130003', name: '早期肾损伤四项', items: ['尿α1微球蛋白','尿肌酐','尿微量白蛋白','尿微量白蛋白/尿肌酐(计算值)'], priceM:90, priceF:90, priceFM:90, meaning:'肾小球、肾小管早期损伤的敏感指标，是肾脏损伤、慢性肾病的临床诊断指标。通过精准定量检测尿液中特定蛋白成分能够超早期发现慢性肾病。', remark:'特殊项目', noDiscount:false },
+    { id: 'G2503140067', name: '早期肾损伤七项', items: ['尿α1微球蛋白','尿β2微球蛋白','尿肌酐','尿视黄醇结合蛋白','尿微量白蛋白/尿肌酐(计算值)','尿微量白蛋白','尿转铁蛋白'], priceM:220, priceF:220, priceFM:220, meaning:'肾小球、肾小管早期损伤的敏感指标，是肾脏损伤、慢性肾病的临床诊断指标。通过精准定量检测尿液中特定蛋白成分能够超早期发现慢性肾病。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230302369', name: '便常规', items: ['粪便白细胞','粪便颜色','粪便性状','粪便肿瘤细胞','粪便夏科-雷登结晶','粪便细菌','粪便寄生','粪便脂肪小粒','粪便真菌','粪便红细胞'], priceM:10, priceF:10, priceFM:10, meaning:'当消化系统有病变时，可影响粪便的颜色、形状和组成等，从而间接判断胃、肠、胰腺、肝胆系统等有无炎症、出血、寄生虫感染、肿瘤等情况。', remark:'', noDiscount:false },
+    { id: 'GP230302370', name: '便隐血试验（定性）', items: ['粪便隐血试验（定性）'], priceM:10, priceF:10, priceFM:10, meaning:'当消化系统有病变时，可影响粪便的颜色、形状和组成等，从而间接判断胃、肠、胰腺、肝胆系统等有无炎症、出血、寄生虫感染、肿瘤等情况。', remark:'', noDiscount:false },
+    { id: 'G2512050020', name: '大便隐血定量qFIT检测', items: ['大便隐血定量qFIT检测'], priceM:80, priceF:80, priceFM:80, meaning:'通过定量检测人粪便样本中血红蛋白的浓度，评估消化道内有无异常出血，若检测值>75ng/mL，表明患有结直肠癌的风险较高，建议尽早到消化内科行进一步结肠镜检查。', remark:'', noDiscount:false },
+    { id: 'G23040353163', name: '肝功能2项', items: ['血清丙氨酸氨基转移酶','血清天门冬氨酸氨基转移酶'], priceM:15, priceF:15, priceFM:15, meaning:'帮助了解肝脏是否有损伤、损伤的程度、种类、轻重等。', remark:'', noDiscount:false },
+    { id: 'GP230302379', name: '肝功能4项', items: ['血清总胆红素','血清直接胆红素(结合胆红素)','血清丙氨酸氨基转移酶','血清天门冬氨酸氨基转移酶'], priceM:22, priceF:22, priceFM:22, meaning:'帮助了解肝脏是否有损伤、损伤的程度、种类、轻重等。', remark:'', noDiscount:false },
+    { id: 'GP230303411', name: '肝功能5项', items: ['血清总胆红素','血清直接胆红素(结合胆红素)','血清丙氨酸氨基转移酶（ALT谷丙转氨酶','血清天门冬氨酸氨基转移酶（AST谷草转氨酶','血清γ-谷氨酰基转移酶'], priceM:30, priceF:30, priceFM:30, meaning:'帮助了解肝脏是否有损伤、损伤的程度、种类、轻重等。', remark:'', noDiscount:false },
+    { id: 'G23032951298', name: '肝功能12项', items: ['血清总蛋白','血清白蛋白','白蛋白/球蛋白(计算值)','血清球蛋白(计算值)','血清总胆红素','血清直接胆红素(结合胆红素)','血清间接胆红素(计算值)(非结合胆红素)','血清总胆汁酸','血清丙氨酸氨基转移酶','血清天门冬氨酸氨基转移酶','血清γ-谷氨酰基转移酶GGT','血清碱性磷酸酶ALP'], priceM:70, priceF:70, priceFM:70, meaning:'帮助了解肝脏是否有损伤、损伤的程度、种类、轻重等。', remark:'', noDiscount:false },
+    { id: 'GP230303413', name: '血清碱性磷酸酶测定', items: ['血清碱性磷酸酶'], priceM:8, priceF:8, priceFM:8, meaning:'检测血清碱性磷酸酶，常见的肝功能检测之一。', remark:'', noDiscount:false },
+    { id: 'GP230303425', name: '血清γ-谷氨酰基转移酶测定', items: ['血清γ-谷氨酰基转移酶'], priceM:15, priceF:15, priceFM:15, meaning:'检测血清γ-谷氨酰基转移酶，常见于肝功能检测之一。', remark:'', noDiscount:false },
+    { id: 'GP230303427', name: '血清淀粉酶测定', items: ['血清淀粉酶'], priceM:15, priceF:15, priceFM:15, meaning:'检测血清淀粉酶，升高常与胰腺组织的炎症损伤和胰腺分泌液排泄受阻有关。', remark:'', noDiscount:false },
+    { id: 'G23030434839', name: '血脂2项', items: ['血清总胆固醇','血清甘油三酯'], priceM:20, priceF:20, priceFM:20, meaning:'是早期发现高脂血症、协助诊断动脉粥样硬化症，评价患冠心病和脑梗死等疾病的风险，检测药物治疗疗效等的重要指标。', remark:'', noDiscount:false },
+    { id: 'G23030434840', name: '血脂4项', items: ['血清总胆固醇','血清甘油三酯','血清高密度脂蛋白胆固醇','血清低密度脂蛋白胆固醇'], priceM:30, priceF:30, priceFM:30, meaning:'是早期发现高脂血症、协助诊断动脉粥样硬化症，评价患冠心病和脑梗死等疾病的风险，检测药物治疗疗效等的重要指标。', remark:'', noDiscount:false },
+    { id: 'G23030434841', name: '血脂6项', items: ['血清总胆固醇','血清甘油三酯','血清高密度脂蛋白胆固醇','血清低密度脂蛋白胆固醇','血清载脂蛋白A1','血清载脂蛋白B'], priceM:60, priceF:60, priceFM:60, meaning:'是早期发现高脂血症、协助诊断动脉粥样硬化症，评价患冠心病和脑梗死等疾病的风险，检测药物治疗疗效等的重要指标。', remark:'', noDiscount:false },
+    { id: 'G2505220011', name: '血脂7项', items: ['血清总胆固醇','血清甘油三酯','血清高密度脂蛋白胆固醇','血清低密度脂蛋白胆固醇','血清载脂蛋白A1','血清载脂蛋白B','脂蛋白a'], priceM:78, priceF:78, priceFM:78, meaning:'是早期发现高脂血症、协助诊断动脉粥样硬化症，评价患冠心病和脑梗死等疾病的风险，检测药物治疗疗效等的重要指标。', remark:'', noDiscount:false },
+    { id: 'G23030434842', name: '血清总胆固醇测定', items: ['血清总胆固醇'], priceM:10, priceF:10, priceFM:10, meaning:'结合其他血脂检测，了解血脂代谢情况。', remark:'', noDiscount:false },
+    { id: 'G23030434843', name: '血清甘油三酯测定', items: ['血清甘油三酯测定'], priceM:10, priceF:10, priceFM:10, meaning:'血清甘油三酯，常见于血脂检测之一。', remark:'', noDiscount:false },
+    { id: 'G23030434849', name: '血清同型半胱氨酸', items: ['血同型半胱氨酸'], priceM:90, priceF:90, priceFM:90, meaning:'心血管疾病危险性的标志物,可作为风险评估因子提示疾病发生的危险性。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030434832', name: '肾功能2项', items: ['血清尿素','血清肌酐'], priceM:15, priceF:15, priceFM:15, meaning:'评估肾代谢功能，用于肾脏相关问题的排查和辅助诊断。', remark:'', noDiscount:false },
+    { id: 'G23030434833', name: '肾功能3项', items: ['血清尿酸','血清尿素','血清肌酐'], priceM:23, priceF:23, priceFM:23, meaning:'评估肾代谢功能，用于肾脏相关问题的排查和辅助诊断。', remark:'', noDiscount:false },
+    { id: 'G23030434835', name: '肾功能4项', items: ['血清尿酸','血清尿素','血清肌酐','血清β2微球蛋白'], priceM:35, priceF:35, priceFM:35, meaning:'评估肾代谢功能，用于肾脏相关问题的排查和辅助诊断。', remark:'', noDiscount:false },
+    { id: 'GP230304460', name: '血清尿素测定', items: ['血清尿素'], priceM:8, priceF:8, priceFM:8, meaning:'检测血清尿素，常见的肾功能检测之一。', remark:'', noDiscount:false },
+    { id: 'GP230304444', name: '血清肌酐测定', items: ['血清肌酐'], priceM:8, priceF:8, priceFM:8, meaning:'结合其他肾功能指标，可提示有无肾功能损害：如慢性肾炎，肾盂肾炎，肾结核，肾肿瘤，尿毒症等。', remark:'', noDiscount:false },
+    { id: 'GP230304443', name: '血清尿酸测定', items: ['血清尿酸'], priceM:8, priceF:8, priceFM:8, meaning:'检测尿酸，常见的肾功能检测之一。', remark:'', noDiscount:false },
+    { id: 'GP230304441', name: '血清胱抑素C测定', items: ['血清胱抑素C'], priceM:60, priceF:60, priceFM:60, meaning:'是肾功能损害的敏感指标之一。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304446', name: '皮质醇测定', items: ['皮质醇'], priceM:45, priceF:45, priceFM:45, meaning:'检测患者血液循环中皮质醇含量可用于诊断肾上腺、垂体和下丘脑的功能是否正常。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304445', name: '超敏C反应蛋白', items: ['超敏C反应蛋白'], priceM:60, priceF:60, priceFM:60, meaning:'是区分低水平炎症状态的灵敏指标，其与动脉粥样硬化急性脑梗死的发生、严重程度及预后密切先关。', remark:'', noDiscount:false },
+    { id: 'GP230304440', name: '尿微量白蛋白测定', items: ['尿微量白蛋白'], priceM:50, priceF:50, priceFM:50, meaning:'检测尿微量白蛋白，可早期反映肾脏异常;也可反映整个血管系统的改变。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030434803', name: '风湿三项（定量）', items: ['C-反应蛋白','类风湿因子','抗链球菌溶血素O'], priceM:100, priceF:100, priceFM:100, meaning:'风湿性疾病的实验室检查，可为医生诊断风湿性疾病提供线索和依据。', remark:'', noDiscount:false },
+    { id: 'G23030434802', name: '类风湿因子测定', items: ['类风湿因子'], priceM:20, priceF:20, priceFM:20, meaning:'风湿性疾病的实验室检查，可为医生诊断风湿性疾病提供线索和依据。', remark:'', noDiscount:false },
+    { id: 'GP230304468', name: '免疫功能五项', items: ['补体C3','补体C4','免疫球蛋白G','免疫球蛋白M','免疫球蛋白A'], priceM:200, priceF:200, priceFM:200, meaning:'补体和免疫球蛋白，广泛参与机体免疫防御和免疫调节。对某些疾病的诊断与疗效观察有重要意义，辅助诊断免疫系统疾病等。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304456', name: '癌胚抗原测定（定量）', items: ['癌胚抗原（定量）'], priceM:50, priceF:50, priceFM:50, meaning:'是一种广谱肿瘤标志物，常见于结直肠癌、胃癌、肺癌、乳腺癌、肝癌等，在结肠炎、胆囊炎等问题亦可增高。', remark:'', noDiscount:false },
+    { id: 'GP230304455', name: '甲胎蛋白测定（定量）', items: ['甲胎蛋白（定量）'], priceM:50, priceF:50, priceFM:50, meaning:'是原发性肝癌灵敏特意标志物，在卵巢肿瘤、生殖腺肿瘤、肝炎等问题也有辅助诊断意义。', remark:'', noDiscount:false },
+    { id: 'G23030434814', name: '肿瘤筛查4项（男）', items: ['癌胚抗原（定量）','甲胎蛋白（定量）','总前列腺特异性抗原','游离前列腺特异性抗原'], priceM:200, priceF:null, priceFM:null, meaning:'用于肿瘤的辅助诊断、高危人群随访观察等。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030434815', name: '肿瘤筛查4项（女）', items: ['癌胚抗原（定量）','甲胎蛋白（定量）','糖链抗原CA125','糖链抗原CA15-3'], priceM:null, priceF:200, priceFM:200, meaning:'用于肿瘤的辅助诊断、高危人群随访观察等。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304457', name: '肿瘤筛查6项（男）', items: ['癌胚抗原（定量）','甲胎蛋白（定量）','糖链抗原CA125','糖链抗原CA19-9','总前列腺特异性抗原','游离前列腺特异性抗原'], priceM:300, priceF:null, priceFM:null, meaning:'用于肿瘤的辅助诊断、高危人群随访观察等。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030434816', name: '肿瘤筛查6项（女）', items: ['癌胚抗原（定量）','甲胎蛋白（定量）','糖链抗原CA125','糖链抗原CA19-9','糖链抗原CA15-3','糖链抗原CA50'], priceM:null, priceF:300, priceFM:300, meaning:'用于肿瘤的辅助诊断、高危人群随访观察等。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304458', name: '肿瘤筛查12项（男）', items: ['EB病毒早期抗原IgA抗体','癌胚抗原（定量）','甲胎蛋白（定量）','总前列腺特异性抗原','游离前列腺特异性抗原','神经元特异烯醇化酶','细胞角蛋白19片段','糖链抗原CA125','糖链抗原CA50','糖链抗原CA19-9','糖链抗原CA15-3','糖链抗原CA72-4'], priceM:525, priceF:null, priceFM:null, meaning:'用于肿瘤的辅助诊断、高危人群随访观察等。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304459', name: '肿瘤筛查12项（女）', items: ['血清β人绒毛膜促性腺激素','EB病毒早期抗原IgA抗体','癌胚抗原（定量）','甲胎蛋白（定量）','神经元特异烯醇化酶','细胞角蛋白19片段','糖链抗原CA125','糖链抗原CA50','糖链抗原CA19-9','糖链抗原CA242','糖链抗原CA15-3','糖链抗原CA72-4'], priceM:null, priceF:525, priceFM:525, meaning:'用于肿瘤的辅助诊断、高危人群随访观察等。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304433', name: '血清β人绒毛膜促性腺激素测定', items: ['血清β人绒毛膜促性腺激素'], priceM:null, priceF:90, priceFM:90, meaning:'检测血清β人绒毛膜促性腺激素，单项检测常用于妊娠试验，结合其他肿瘤标志物可用于肿瘤得辅助诊断、高危人群随访观察等。', remark:'', noDiscount:false },
+    { id: 'G23030434827', name: '鳞状上皮细胞癌相关抗原', items: ['鳞状上皮细胞癌相关抗原'], priceM:90, priceF:90, priceFM:90, meaning:'是鳞状上皮癌的标志物，用于鳞癌的辅助诊断和治疗检测，特异性较高，显著增高应怀疑鳞状上皮癌。', remark:'', noDiscount:false },
+    { id: 'G23030434828', name: '神经元特异性烯醇化酶', items: ['神经元特异烯醇化酶'], priceM:50, priceF:50, priceFM:50, meaning:'检测神经元特异烯醇化酶，肿瘤标志物之一。应用时建议结合其他肿瘤标志物。', remark:'', noDiscount:false },
+    { id: 'G23030434825', name: '细胞角蛋白19片段测定', items: ['细胞角蛋白19片段'], priceM:100, priceF:100, priceFM:100, meaning:'细胞角蛋白19片段测定，是非小细胞肺癌（NSCLC）的鉴别诊断，疗效监测和预后判断的重要指标。', remark:'', noDiscount:false },
+    { id: 'G23030434823', name: '糖链抗原50测定', items: ['糖链抗原50'], priceM:80, priceF:80, priceFM:80, meaning:'检测糖链抗原50，肿瘤标志物之一，应用时建议结合其他肿瘤标志物。', remark:'', noDiscount:false },
+    { id: 'G23030434826', name: '糖链抗原CA72-4', items: ['糖链抗原72-4'], priceM:80, priceF:80, priceFM:80, meaning:'检测糖类抗原72-4，可作为胃肠道肿瘤标志物之一，应用时建议结合其他肿瘤标志物。', remark:'', noDiscount:false },
+    { id: 'G23030434824', name: '糖链抗原242测定', items: ['糖链抗原242'], priceM:80, priceF:80, priceFM:80, meaning:'检测糖链抗原242，肿瘤标志物之一，应用时建议结合其他肿瘤标志物。', remark:'', noDiscount:false },
+    { id: 'G23030434822', name: '糖链抗原19-9测定', items: ['糖链抗原19-9'], priceM:80, priceF:80, priceFM:80, meaning:'检测糖链抗原19-9，胃肠道肿瘤标志物之一，应用时建议结合其他肿瘤标志物。', remark:'', noDiscount:false },
+    { id: 'G23030434821', name: '糖链抗原15-3测定', items: ['糖链抗原15-3'], priceM:80, priceF:80, priceFM:80, meaning:'检测糖链抗原15-3，肿瘤标志物之一，对乳腺癌的诊断和术后随访监测有一定价值。应用时建议结合其他肿瘤标志物。', remark:'', noDiscount:false },
+    { id: 'G23030434820', name: '糖链抗原125测定', items: ['糖链抗原125'], priceM:80, priceF:80, priceFM:80, meaning:'检测糖链抗原125，肿瘤标志物之一，主要用于辅助诊断恶性浆液性卵巢癌，上皮性卵巢癌，同时也是卵巢癌手术和化疗后疗效观察的指标。应用时建议结合其他肿瘤标志物。', remark:'', noDiscount:false },
+    { id: 'G23030434818', name: '游离前列腺特异性抗原测定', items: ['游离前列腺特异性抗原'], priceM:80, priceF:null, priceFM:null, meaning:'前列腺癌的辅助标记物，可用于前列腺癌的筛查。', remark:'', noDiscount:false },
+    { id: 'G23030434817', name: '总前列腺特异性抗原测定', items: ['总前列腺特异性抗原'], priceM:80, priceF:null, priceFM:null, meaning:'是筛查前列腺肿瘤的特异性标志物，但前列腺增生、炎症也可轻度增高。', remark:'', noDiscount:false },
+    { id: 'GP230302365', name: '胃泌素17测定', items: ['胃泌素17'], priceM:110, priceF:110, priceFM:110, meaning:'胃泌素17是反映胃部黏膜是否损伤，评估胃部功能状态，提示患胃病风险，反映胃酸高低，是用于筛查胃癌前疾病和早起期胃癌的有效指标。', remark:'', noDiscount:false },
+    { id: 'GP230302364', name: '胃功能三项', items: ['胃蛋白酶原Ⅰ','胃蛋白酶原Ⅱ','胃蛋白酶原比值'], priceM:180, priceF:180, priceFM:180, meaning:'反应胃粘膜功能状态敏感性特异性指标，是慢性胃炎、消化性溃疡、早期胃癌等胃部疾病的筛查指标。', remark:'', noDiscount:false },
+    { id: 'GP230303393', name: '碳13尿素呼气试验', items: ['碳13尿素呼气试验'], priceM:180, priceF:180, priceFM:180, meaning:'通过吹气了解胃内有无幽门螺旋杆菌感染，此感染与胃炎、消化性溃疡、胃癌等发病有密切关系。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230303394', name: '碳14呼气试验', items: ['碳14尿素呼气试验'], priceM:120, priceF:120, priceFM:120, meaning:'通过吹气了解胃内有无幽门螺旋杆菌感染，此感染与胃炎、消化性溃疡、胃癌等发病有密切关系。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230302366', name: '胃幽门螺杆菌抗体检测', items: ['胃幽门螺杆菌抗体'], priceM:50, priceF:50, priceFM:50, meaning:'判断有无幽门螺杆菌感染，其与慢性胃炎、消化性溃疡及胃部肿瘤等疾病的发生有密切相关性。', remark:'', noDiscount:false },
+    { id: 'G2403210119', name: '游离甲状腺功能3项', items: ['血清促甲状腺激素','血清游离甲状腺素','血清游离三碘甲状原氨酸'], priceM:130, priceF:130, priceFM:130, meaning:'有助于对甲状腺疾病或甲状腺功能障碍的诊断，是目前最常用的内分泌测定项目。', remark:'', noDiscount:false },
+    { id: 'GP230304438', name: '甲状腺功能3项', items: ['血清促甲状腺激素','血清甲状腺素','血清三碘甲状原氨酸'], priceM:130, priceF:130, priceFM:130, meaning:'有助于对甲状腺疾病或甲状腺功能障碍的诊断，是目前最常用的内分泌测定项目。', remark:'', noDiscount:false },
+    { id: 'GP230304436', name: '甲状腺功能5项', items: ['血清促甲状腺激素','血清甲状腺素','血清三碘甲状原氨酸','血清游离甲状腺素','血清游离三碘甲状原氨酸'], priceM:200, priceF:200, priceFM:200, meaning:'有助于对甲状腺疾病或甲状腺功能障碍的诊断，是目前最常用的内分泌测定项目。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304434', name: '甲状腺功能7项', items: ['血清促甲状腺激素','血清甲状腺素','血清三碘甲状原氨酸','血清游离甲状腺素','血清游离三碘甲状原氨酸','抗甲状腺球蛋白抗体','抗甲状腺过氧化物酶抗体'], priceM:335, priceF:335, priceFM:335, meaning:'有助于对甲状腺疾病或甲状腺功能障碍的诊断，是目前最常用的内分泌测定项目。', remark:'特殊项目', noDiscount:false },
+    { id: 'G2308150004', name: '抗甲状腺球蛋白抗体测定', items: ['抗甲状腺球蛋白抗体'], priceM:35, priceF:35, priceFM:35, meaning:'检测抗甲状腺球蛋白抗体。抗甲状腺球蛋白抗体是诊断慢性淋巴细胞性甲状腺炎的特异性指标；也可作为甲状腺肿鉴别诊断的指标。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304462', name: '抗甲状腺过氧化物酶抗体测定', items: ['抗甲状腺过氧化物酶抗体'], priceM:70, priceF:70, priceFM:70, meaning:'检测抗甲状腺过氧化物酶抗体。抗甲状腺过氧化物酶抗体升高是慢性淋巴细胞性甲状腺炎的特异性指标，但其增高的程度与疾病的程度无关。', remark:'', noDiscount:false },
+    { id: 'GP230304461', name: '甲状旁腺激素测定', items: ['甲状旁腺激素'], priceM:100, priceF:100, priceFM:100, meaning:'检测甲状旁腺激素。用于甲状旁腺机能和钙磷代谢的检测，老年骨质疏松症多增高。', remark:'', noDiscount:false },
+    { id: 'G23030334758', name: '男性激素五项', items: ['血清泌乳素','血清促卵泡刺激素','血清促黄体生成素','睾酮','雌二醇'], priceM:300, priceF:null, priceFM:null, meaning:'激素类检测。体内各种激素在神经系统参与下，通过精细调节，使其维持在与机体所处发育阶段及功能状态相适应的水平并维持平衡状态。如果由于某种因素打破了平衡，会导致激素水平紊乱，产生相应的内分泌系统疾病。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030334752', name: '激素六项', items: ['血清泌乳素','血清促卵泡刺激素','血清促黄体生成素','睾酮','雌二醇','孕酮'], priceM:null, priceF:300, priceFM:300, meaning:'激素类检测。体内各种激素在神经系统参与下，通过精细调节，使其维持在与机体所处发育阶段及功能状态相适应的水平并维持平衡状态。如果由于某种因素打破了平衡，会导致激素水平紊乱，产生相应的内分泌系统疾病。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030334753', name: '优生五项', items: ['弓形虫抗体IgM测定','风疹病毒抗体IgG测定','巨细胞病毒抗体IgM','单纯疱疹病毒Ⅰ型抗体IgM','单纯疱疹病毒II型抗体IgM'], priceM:null, priceF:null, priceFM:120, meaning:'确定是否感染，为优生优育提供依据。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030434809', name: '脂联素测定', items: ['脂联素'], priceM:80, priceF:80, priceFM:80, meaning:'可筛查出前糖尿病人群。有助于提前预知，及早干预，对筛查出的糖尿病高风险人群可通过运动或饮食进行干预，以提高脂联素水平和胰岛素敏感性，达到逆转糖尿病进程的目的，从而避免糖尿病的发生。', remark:'', noDiscount:false },
+    { id: 'G23030434809', name: '脂联素测定', items: ['脂联素'], priceM:30, priceF:30, priceFM:30, meaning:'可筛查出前糖尿病人群。有助于提前预知，及早干预，对筛查出的糖尿病高风险人群可通过运动或饮食进行干预，以提高脂联素水平和胰岛素敏感性，达到逆转糖尿病进程的目的，从而避免糖尿病的发生。', remark:'必加项优惠价', noDiscount:false },
+    { id: 'G23030434813', name: '抗胰岛素抗体测定', items: ['抗胰岛素抗体'], priceM:80, priceF:80, priceFM:80, meaning:'抗胰岛素抗体(IAB)存在，这种抗体能结合胰岛素形成复合物，使胰岛素失活，这是糖尿病病人对胰岛素抵抗的主要原因之一。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030434811', name: '糖化血红蛋白测定（HPLC法）', items: ['糖化血红蛋白测定'], priceM:70, priceF:70, priceFM:70, meaning:'可反映检查前1-2个月的血糖水平，是糖尿病的筛查指标。', remark:'', noDiscount:false },
+    { id: 'G23030434812', name: '空腹胰岛素测定', items: ['空腹胰岛素'], priceM:50, priceF:50, priceFM:50, meaning:'胰岛素是由胰岛β细胞分泌，受内源性或外源性葡萄糖、乳糖、核糖、胰高血糖素等刺激因素影响。胰岛素是机体内唯一可降低血糖的激素。胰岛素测定能反映胰岛β细胞的功能是否正常。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304463', name: '空腹血清C肽测定', items: ['空腹血清C肽'], priceM:50, priceF:50, priceFM:50, meaning:'检测C-肽，可反映胰岛β细胞的功能，还能指导治疗和评估疗效。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030434807', name: '空腹血糖测定', items: ['空腹血糖'], priceM:10, priceF:10, priceFM:10, meaning:'评价人体空腹状态下糖代谢是否正常，评估糖尿病患者空腹血糖控制是否达标。', remark:'', noDiscount:false },
+    { id: 'G23030434808', name: '餐后二小时血糖测定', items: ['餐后二小时血糖'], priceM:15, priceF:15, priceFM:15, meaning:'结合一系列结果，可帮助评估机体糖代谢状态，判断糖代谢紊乱的原因以协助诊断和指导治疗。', remark:'', noDiscount:false },
+    { id: 'GP230304437', name: '乙肝五项（定量）', items: ['乙型肝炎表面抗原（定量）','乙型肝炎表面抗体（定量)','乙型肝炎e抗原（定量）','乙型肝炎e抗体（定量）','乙型肝炎核心抗体（定量）'], priceM:200, priceF:200, priceFM:200, meaning:'急性乙型肝炎，慢性迁延性肝炎，慢性活动性肝炎，HBsAg携带者，乙肝疫苗接种后是否出现抗体。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304435', name: '乙肝五项（定性）', items: ['乙型肝炎表面抗原（定性）','乙型肝炎表面抗体（定性）','乙型肝炎e抗原（定性）','乙型肝炎e抗体（定性）','乙型肝炎核心抗体（定性）'], priceM:25, priceF:25, priceFM:25, meaning:'检测有无乙肝病毒的感染，了解乙肝抗体的强弱及是否需要接种乙肝疫苗。', remark:'', noDiscount:false },
+    { id: 'GP230304453', name: '乙型肝炎DNA测定', items: ['乙型肝炎DNA'], priceM:110, priceF:110, priceFM:110, meaning:'是乙型肝炎病毒感染和传染性大小的指标；也是乙型肝炎治疗后观察疗效的指标。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304450', name: '丙型肝炎抗体IgG测定', items: ['丙型肝炎抗体IgG'], priceM:30, priceF:30, priceFM:30, meaning:'丙型肝炎病毒抗体IgG检测。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304451', name: '甲型肝炎抗体IgM测定', items: ['甲型肝炎抗体IgM'], priceM:15, priceF:15, priceFM:15, meaning:'是急性甲型病毒感染的重要标志物。检测肝炎病毒的血清标志物，对病毒性肝炎分型。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304452', name: '戊型肝炎抗体IgM测定', items: ['戊型肝炎抗体IgM'], priceM:25, priceF:25, priceFM:25, meaning:'是诊断戊型肝炎病毒感染的重要标志物。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304454', name: '丙型肝炎RNA测定', items: ['丙型肝炎RNA'], priceM:110, priceF:110, priceFM:110, meaning:'丙肝病毒RNA定量检测。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304429', name: '腺病毒抗体IgM测定', items: ['腺病毒抗体IgM'], priceM:20, priceF:20, priceFM:20, meaning:'腺病毒通过空气及接触传染，可致呼吸道感染、胃肠炎，IgM阳性提示处于感染急性期。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304431', name: '上呼吸道感染EB病毒抗体检测4项', items: ['EB病毒衣壳抗原IgM抗体','EB病毒衣壳抗原IgG抗体','EB病毒早期抗原IgM抗体','EB病毒核抗原IgG抗体'], priceM:80, priceF:80, priceFM:80, meaning:'检测EB病毒相关抗体，是鼻咽癌的风险指标。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304430', name: '鼻咽癌EB病毒抗体2项', items: ['EB病毒衣壳抗原IgA抗体','EB病毒早期抗原IgA抗体'], priceM:40, priceF:40, priceFM:40, meaning:'检测EB病毒相关抗体，是鼻咽癌的风险指标。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030434830', name: '降钙素测定', items: ['降钙素'], priceM:40, priceF:40, priceFM:40, meaning:'检测血清降钙素。肿瘤标志物之一，应用时建议结合其他肿瘤标志物。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030434798', name: '贫血检测3项', items: ['叶酸','血清铁蛋白','血清维生素B12'], priceM:140, priceF:140, priceFM:140, meaning:'结合血常规等其他检测，探究贫血的临床病因和发病机制。（主要针对缺铁性贫血和巨幼细胞性贫血）。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030434829', name: '血清铁蛋白测定', items: ['血清铁蛋白'], priceM:60, priceF:60, priceFM:60, meaning:'检测铁蛋白（Fer),主要针对缺铁性贫血,也可以作为肿瘤标志物。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030434800', name: '微量元素全血6项', items: ['全血镁','全血铁','全血铅','全血铜','全血锌','全血钙'], priceM:55, priceF:55, priceFM:55, meaning:'微量元素虽然在人体内含量很少，但与人的健康息息相关。微量元素在许多疾病的发生、诊断和防治方面具有重要的意义。', remark:'特殊项目', noDiscount:false },
+    { id: 'G2503080013', name: '25-羟基维生素D2\\D3', items: ['25-羟基维生素D2','25-羟基维生素D3'], priceM:160, priceF:160, priceFM:160, meaning:'维生素D缺乏会导致软骨病、佝偻病、骨质疏松等', remark:'特殊项目', noDiscount:false },
+    { id: 'G2305040028', name: '25-羟基维生素D', items: ['25-羟基维生素D'], priceM:90, priceF:90, priceFM:90, meaning:'检测25羟维生素D', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030234510', name: '妇科检查（已婚）', items: ['既往史','子宫','附件','外阴','阴道','宫颈','月经史与生育史','其他'], priceM:null, priceF:null, priceFM:15, meaning:'检查女性生殖器有无异常改变、有无宫颈及阴道异常病变。', remark:'', noDiscount:false },
+    { id: 'G23030234511', name: '白带常规（已婚）', items: ['白带清洁度','线索细胞','真菌','滴虫'], priceM:null, priceF:null, priceFM:15, meaning:'是妇科检查的常规项目，对于女性生殖系统炎症、肿瘤等疾病的诊断，是临床诊断阴道疾病的重要依据。', remark:'', noDiscount:false },
+    { id: 'G23030234512', name: '宫颈刮片检测', items: ['宫颈刮片'], priceM:null, priceF:null, priceFM:40, meaning:'宫颈癌筛查。', remark:'', noDiscount:false },
+    { id: 'G23030234513', name: '女士TCT宫颈基细胞学TBS检测', items: ['液基薄层细胞学'], priceM:null, priceF:null, priceFM:170, meaning:'采用液基薄层细胞检查系统检测宫颈细胞并进行细胞学分类诊断，主要用于宫颈癌早期筛查和癌前风险检测。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030234514', name: '人乳头瘤病毒检测（16/18型)', items: ['HPV 16型','HPV 18型'], priceM:null, priceF:null, priceFM:160, meaning:'检查是否存在HPV（人乳头瘤病毒）感染，是临床是对于女性宫颈癌癌前风险重要的筛查方法。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23031643809', name: '人乳头瘤病毒分型（23型）', items: ['HPV 16型','HPV 18型','HPV 26型','HPV 31型','HPV 33型','HPV 35型','HPV 39型','HPV 45型','HPV 51型','HPV 52型','HPV 53型','HPV 56型','HPV 58型','HPV 59型','HPV 66型','HPV 68型','HPV 73型','HPV 82型','HPV 6型','HPV 11型','HPV 42型','HPV 43型','HPV 81型'], priceM:null, priceF:null, priceFM:300, meaning:'检查是否存在HPV（人乳头瘤病毒）感染，是临床是对于女性宫颈癌癌前风险重要的筛查方法。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23030434804', name: '梅毒螺旋体特异抗体测定', items: ['梅毒螺旋体特异性抗体'], priceM:40, priceF:40, priceFM:40, meaning:'TPPA是梅毒的确诊实验。判读结果时需结合筛查实验（RPR或TRUST）', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230304467', name: '艾滋病毒抗体（HIV Ab）', items: ['人免疫缺陷病毒抗体'], priceM:70, priceF:70, priceFM:70, meaning:'检测艾滋病毒抗体，阳性需按照国家规定送有关单位进行确诊实验。确诊阳性：见于艾滋病毒感染者。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23042066196', name: '吸入和食物过敏源组合', items: ['户尘螨/粉尘螨组合','矮豚草/蒿组合','动物毛皮屑组合(猫、狗毛皮屑)','蟑螂','霉菌组合(点青霉/烟曲霉/分枝孢菌/交链孢霉','葎草','树花粉组合(柳/榆/栎/梧桐/三角叶杨)','鸡蛋白','牛奶','鱼/虾/蟹组合','牛肉/羊肉组合','腰果/花生/黄豆组合','芒果','小麦','榛子/开心果','蟹','虾','鳕鱼','西红柿','大豆','蛋黄/蛋清','花生','狗上皮','猫毛','豚草','艾蒿','榆树','梧桐','总IgE','淡水鱼（鲑鱼/鲈鱼/鲤鱼）','桑树','猫毛皮屑','贝','菠萝','狗毛皮屑','霉菌组合（点青霉/分枝孢霉/烟曲霉）','腰果','苋','牛肉','混合草','屋尘','海鱼组合（鳕鱼/龙虾/扇贝）','羊肉','鲑鱼','黄豆','矮豚草树组合（柳树/杨树/榆树）','户尘螨','屋尘螨/粉尘螨','龙虾/扇贝','法兰西菊','梯牧草','马皮屑','牛皮屑','蒲公英','长叶车前','枫叶梧桐','巴西坚果','椰子'], priceM:500, priceF:500, priceFM:500, meaning:'检测由食入性的，还是吸入性的过敏原引起的过敏反应。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230302367', name: '心梗脑梗预警三项', items: ['超敏C反应蛋白','脂蛋白磷脂酶A2','髓过氧化物酶'], priceM:100, priceF:100, priceFM:100, meaning:'有助于提高冠心病诊断的灵敏度和特异性，能反应心肌病变的程度、评价治疗效果、判断疾病预后等。', remark:'团单优惠价', noDiscount:false },
+    { id: 'GP230302367', name: '心梗脑梗预警三项', items: ['超敏C反应蛋白','脂蛋白磷脂酶A2','髓过氧化物酶'], priceM:560, priceF:560, priceFM:560, meaning:'有助于提高冠心病诊断的灵敏度和特异性，能反应心肌病变的程度、评价治疗效果、判断疾病预后等。', remark:'', noDiscount:false },
+    { id: 'GP230304448', name: '心肌酶3项', items: ['血清肌酸激酶','血清乳酸脱氢酶','血清α羟基丁酸脱氢酶'], priceM:27, priceF:27, priceFM:27, meaning:'主要用于排查心脏相关疾病，如心肌炎、急性心梗、心机损伤等。', remark:'', noDiscount:false },
+    { id: 'GP230304447', name: '心肌酶谱5项', items: ['血清天门冬氨酸氨基转移酶','血清肌酸激酶','血清肌酸激酶同工酶','血清乳酸脱氢酶','血清α羟基丁酸脱氢酶'], priceM:44, priceF:44, priceFM:44, meaning:'主要用于排查心脏相关疾病，如心肌炎、急性心梗、心机损伤等。', remark:'', noDiscount:false },
+    { id: 'G23042368732', name: '子宫附件彩超（经腹式）', items: ['子宫彩超 (经腹部)','附件彩超(经腹部）'], priceM:null, priceF:100, priceFM:null, meaning:'检查子宫、输卵管、卵巢等是否存在器质型风险，如：子宫肌瘤、子宫腺肌症、子宫内膜息肉、卵巢囊肿等问题。', remark:'', noDiscount:false },
+    { id: 'G23042368733', name: '子宫附件彩超（经阴式）', items: ['子宫彩超 (经阴道)','附件彩超（经阴道）'], priceM:null, priceF:null, priceFM:100, meaning:'检查子宫、输卵管、卵巢等是否存在器质型风险，如：子宫肌瘤、子宫腺肌症、子宫内膜息肉、卵巢囊肿等问题。', remark:'', noDiscount:false },
+    { id: 'GP230303401', name: '双乳腺彩超+双侧腋下淋巴结组织', items: ['乳腺超声','腋窝淋巴结超声'], priceM:null, priceF:140, priceFM:140, meaning:'清晰显示乳房各层结构，判断有无增生、肿块、炎症及占位等乳腺风险。', remark:'', noDiscount:false },
+    { id: 'GP230303395', name: '肝胆脾胰双肾彩超', items: ['肝脏彩超','胆囊彩超','脾脏彩超','胰腺彩超','双肾彩超'], priceM:110, priceF:110, priceFM:110, meaning:'检查各脏器有无结构形态学改变及占位性病变。', remark:'', noDiscount:false },
+    { id: 'GP230303400', name: '肾上腺彩超', items: ['肾上腺彩超'], priceM:110, priceF:110, priceFM:100, meaning:'更清晰的检查肾上腺是否异常病变发生。', remark:'', noDiscount:false },
+    { id: 'G23030334744', name: '膀胱彩超（需憋尿）', items: ['膀胱彩超'], priceM:60, priceF:60, priceFM:60, meaning:'更清晰的观察各脏器有无炎症、囊肿、肿瘤、结石等。', remark:'', noDiscount:false },
+    { id: 'G23032951299', name: '输尿管彩超', items: ['输尿管彩超'], priceM:60, priceF:60, priceFM:60, meaning:'更清晰的观察输尿管有无囊肿、肿瘤、结石、积水引起扩张等。', remark:'', noDiscount:false },
+    { id: 'G23030334745', name: '膀胱输尿管彩超', items: ['膀胱彩超','输尿管彩超'], priceM:110, priceF:110, priceFM:110, meaning:'更清晰的观察各脏器有无炎症、囊肿、肿瘤、结石、积水等。', remark:'', noDiscount:false },
+    { id: 'G23030334741', name: '前列腺彩超', items: ['前列腺彩超'], priceM:60, priceF:null, priceFM:null, meaning:'检查能较好的显示前列腺的形态、大小，对于前列腺增生、肥大、钙化等疾病具有诊断意义。提供高清晰度的动态彩色超声断层图像诊断。', remark:'', noDiscount:false },
+    { id: 'G2505100009', name: '左下肢静脉彩超', items: ['左下肢静脉彩超'], priceM:180, priceF:180, priceFM:180, meaning:'观察下肢静脉血管腔内血流情况，静脉有无狭窄或闭塞，有无斑块及斑块情况等异常。', remark:'特殊项目，检前沟通分院是否支持', noDiscount:false },
+    { id: 'G2505100008', name: '右下肢静脉彩超', items: ['右下肢静脉彩超'], priceM:180, priceF:180, priceFM:180, meaning:'观察下肢静脉血管腔内血流情况，静脉有无狭窄或闭塞，有无斑块及斑块情况等异常。', remark:'特殊项目，检前沟通分院是否支持', noDiscount:false },
+    { id: 'G2505140100', name: '左下肢动脉彩超', items: ['左下肢动脉彩超'], priceM:180, priceF:180, priceFM:180, meaning:'观察下肢动脉血管腔内血流情况，动脉有无狭窄或闭塞，有无斑块及斑块情况等异常。', remark:'特殊项目，检前沟通分院是否支持', noDiscount:false },
+    { id: 'G2505140101', name: '右下肢动脉彩超', items: ['右下肢动脉彩超'], priceM:180, priceF:180, priceFM:180, meaning:'观察下肢动脉血管腔内血流情况，动脉有无狭窄或闭塞，有无斑块及斑块情况等异常。', remark:'特殊项目，检前沟通分院是否支持', noDiscount:false },
+    { id: 'G23030334750', name: '双下肢动脉彩超', items: ['下肢动脉彩超'], priceM:360, priceF:360, priceFM:360, meaning:'观察下肢动脉血管腔内血流情况，动脉有无狭窄或闭塞，有无斑块及斑块情况等异常。', remark:'特殊项目，检前沟通分院是否支持', noDiscount:false },
+    { id: 'G2502170001', name: '双下肢静脉彩超', items: ['下肢静脉彩超'], priceM:360, priceF:360, priceFM:360, meaning:'观察下肢静脉血管腔内血流情况，静脉有无狭窄或闭塞，有无斑块及斑块情况等异常。', remark:'特殊项目，检前沟通分院是否支持', noDiscount:false },
+    { id: 'G23030334748', name: '颈动脉彩超', items: ['颈动脉彩超'], priceM:100, priceF:100, priceFM:100, meaning:'了解颈部大动脉有无异常(如斑块、硬化、狭窄)。', remark:'', noDiscount:false },
+    { id: 'G23041964629', name: '椎动脉彩超', items: ['椎动脉彩超'], priceM:100, priceF:100, priceFM:100, meaning:'了解颈部大动脉有无异常(如斑块、硬化、狭窄)。', remark:'', noDiscount:false },
+    { id: 'G23030334742', name: '甲状腺彩超', items: ['甲状腺彩超'], priceM:60, priceF:60, priceFM:60, meaning:'检查甲状腺的形态、大小有无异常回声及血流分布等情况，是否存在甲状腺肿、甲状腺肿瘤、甲状腺炎等疾病。', remark:'', noDiscount:false },
+    { id: 'G23030334749', name: '心脏彩超', items: ['心脏彩超'], priceM:190, priceF:190, priceFM:190, meaning:'心血管疾病的重要诊断方法。动态显示心腔内结构、心脏的搏动和血液流动，对先天性心脏病、心肌病、冠心病、心肌梗塞并发症及肺心病有较大的诊断价值。', remark:'免单按五折算', noDiscount:false },
+    { id: 'G23030234524', name: '颈椎正侧位检查（不含片）', items: ['颈椎正侧位DR'], priceM:110, priceF:110, priceFM:110, meaning:'可提示颈椎是否侧弯，颈椎曲度是否改变，椎间隙是否变窄，有无骨质增生或韧带钙化。', remark:'', noDiscount:false },
+    { id: 'G23030234520', name: '颈椎侧位DR(不出片)', items: ['颈椎侧位DR'], priceM:60, priceF:60, priceFM:60, meaning:'可提示颈椎曲度是否改变，椎间隙是否变窄，有无骨质增生或韧带钙化。', remark:'', noDiscount:false },
+    { id: 'G23030234521', name: '颈椎正位检查（不含片）', items: ['颈椎正位DR'], priceM:60, priceF:60, priceFM:60, meaning:'可提示颈椎是否侧弯，椎间隙是否变窄，有无骨质增生或韧带钙化。', remark:'', noDiscount:false },
+    { id: 'G23030234518', name: '胸部侧位检查（不含片）', items: ['胸部侧位DR'], priceM:60, priceF:60, priceFM:60, meaning:'适用于肺部疾病及心脏、主动脉、纵隔、横膈疾病等的检查。', remark:'', noDiscount:false },
+    { id: 'G23030234517', name: '胸部正位检查（不含片）', items: ['胸部正位DR'], priceM:60, priceF:60, priceFM:60, meaning:'适用于肺部疾病及心脏、主动脉、纵隔、横膈疾病等的检查。', remark:'', noDiscount:false },
+    { id: 'G23030234519', name: '胸部正侧位检查（不含片）', items: ['胸部正侧位DR'], priceM:110, priceF:110, priceFM:110, meaning:'适用于肺部疾病及心脏、主动脉、纵隔、横膈疾病等的检查。', remark:'', noDiscount:false },
+    { id: 'G23030234526', name: '腰椎正位检查（不含片）', items: ['腰椎正位检查'], priceM:60, priceF:60, priceFM:60, meaning:'用于观察腰椎正位的骨质、形态、关节间隙及两侧软组织等的情况。', remark:'', noDiscount:false },
+    { id: 'G23030234527', name: '腰椎侧位检查（不含片）', items: ['腰椎侧位DR'], priceM:60, priceF:60, priceFM:60, meaning:'用于观察腰椎骨质、形态、椎间盘、棘突、关节突等的情况。', remark:'', noDiscount:false },
+    { id: 'G23030234528', name: '腰椎正侧位检查（不含片）', items: ['腰椎正侧位DR'], priceM:110, priceF:110, priceFM:110, meaning:'用于观察腰椎骨质、形态、椎间盘、棘突、关节突、关节间隙、两侧软组织等的情况。', remark:'', noDiscount:false },
+    { id: 'G23030234529', name: '骨盆正位检查（不含片）', items: ['骨盆正位DR'], priceM:60, priceF:60, priceFM:60, meaning:'用于观察髂、耻、坐骨及股骨头、颈、大小粗隆及股骨上端的骨质病变和髋关节有无关节炎、关节结核、脱臼等病变的情况。', remark:'', noDiscount:false },
+    { id: 'G2305190033', name: '右肩关节正位DR(不含片)', items: ['右肩关节正位DR'], priceM:60, priceF:60, priceFM:60, meaning:'用于观察肩关节和肩锁关节的骨折和脱位情况。', remark:'', noDiscount:false },
+    { id: 'G2305190032', name: '左肩关节正位DR(不含片)', items: ['左肩关节正位DR'], priceM:60, priceF:60, priceFM:60, meaning:'用于观察肩关节和肩锁关节的骨折和脱位情况。', remark:'', noDiscount:false },
+    { id: 'DR_other', name: '肘、膝、踝、手、足、腕等关节正侧位检查（单部位、单侧、不含片）', items: ['单部位关节正侧位DR'], priceM:110, priceF:110, priceFM:110, meaning:'检测各部位骨质及相关疾病。', remark:'', noDiscount:false },
+    { id: 'G2512030012', name: 'CT骨密度分析', items: ['CT骨密度分析'], priceM:70, priceF:70, priceFM:70, meaning:'是测量骨强度的检测方法，主要用于骨质疏松症的初筛。', remark:'此项目前提套餐必须有肺部CT项目才可选择', noDiscount:false },
+    { id: 'G2605190117', name: '胰腺肿瘤风险评估', items: ['胰腺肿瘤风险评估'], priceM:160, priceF:160, priceFM:160, meaning:'胰腺肿瘤风险评估', remark:'必须有肺部CT项目才可选择', noDiscount:false },
+    { id: 'G2605190117', name: '胰腺肿瘤风险评估', items: ['胰腺肿瘤风险评估'], priceM:80, priceF:80, priceFM:80, meaning:'胰腺肿瘤风险评估', remark:'团单优惠必须有肺部CT项目才可选择', noDiscount:false },
+    { id: 'G23031338444', name: '肺部CT平扫(不含片)', items: ['肺部CT平扫'], priceM:60, priceF:60, priceFM:60, meaning:'主要检查胸壁、肺脏、纵膈、冠脉有无钙化等，精准筛查肺部炎症、肿瘤等早期病变，有助于肺结节良恶性判断发展观察。', remark:'特殊项目，团单满400以上胸片升级', noDiscount:false },
+    { id: 'G23031338444', name: '肺部CT平扫(不含片)', items: ['肺部CT平扫'], priceM:160, priceF:160, priceFM:160, meaning:'主要检查胸壁、肺脏、纵膈、冠脉有无钙化等，精准筛查肺部炎症、肿瘤等早期病变，有助于肺结节良恶性判断发展观察。', remark:'', noDiscount:false },
+    { id: 'G23031338439', name: '头颅CT平扫(不含片)', items: ['头颅CT平扫'], priceM:160, priceF:160, priceFM:160, meaning:'高清晰快速颅脑扫描，对脑出血、脑梗塞、颅内肿瘤、脑退行性风险、颅脑损伤、颅内炎性风险等进行筛查。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23042166398', name: '腹部CT平扫(不含片)', items: ['腹部CT平扫'], priceM:160, priceF:160, priceFM:160, meaning:'适用于肝、胆、胰、脾、肾等部位的疾病检查。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23041964597', name: '颈椎CT平扫(不含片)', items: ['颈椎CT平扫'], priceM:160, priceF:160, priceFM:160, meaning:'适用于颈椎骨质、椎管及周围软组织病变的检查。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23041964595', name: '腰椎CT平扫(不含片)', items: ['腰椎CT平扫'], priceM:160, priceF:160, priceFM:160, meaning:'适用于脊柱外伤。各种原因的椎管狭窄。原发性、继发性脊椎骨肿瘤和椎旁肿瘤。椎管内占位病变。CT引导下介入放射学检查。脊柱感染性疾病、脊柱结核、化脓性脊柱炎。先天性畸形和发育异常。.脊柱退行性病变。', remark:'特殊项目', noDiscount:false },
+    { id: 'G23031338441', name: '头颅MRI平扫(不含片)', items: ['头颅MRI平扫'], priceM:300, priceF:300, priceFM:300, meaning:'用于检查颅内血管性疾病，包括动脉瘤、动静脉畸形、血管狭窄、占位、出血和缺血性病灶。', remark:'1200以上团单', noDiscount:false },
+    { id: 'G23031338441', name: '头颅MRI平扫(不含片)', items: ['头颅MRI平扫'], priceM:600, priceF:600, priceFM:600, meaning:'用于检查颅内血管性疾病，包括动脉瘤、动静脉畸形、血管狭窄、占位、出血和缺血性病灶。', remark:'特殊项目', noDiscount:false },
+    { id: 'G2503080012', name: '头颅磁共振血管成像', items: ['头颅MRA平扫'], priceM:450, priceF:450, priceFM:450, meaning:'高清晰快速颅脑扫描血管成像，精准筛查大脑动脉环是否完整，血管有无狭窄、动脉瘤、畸形等病变。', remark:'特殊项目 含云胶片', noDiscount:false },
+    { id: 'G2506180011', name: '颈椎MRI平扫(不含片)', items: ['颈椎椎体MRI平扫','颈椎间盘MRI平扫'], priceM:600, priceF:600, priceFM:600, meaning:'适用于颈椎间盘突出，椎管狭窄、脊髓腔肿瘤等排查。', remark:'特殊项目', noDiscount:false },
+    { id: 'G2308070051', name: '腰椎MRI平扫（不含片）', items: ['腰椎MRI平扫'], priceM:600, priceF:600, priceFM:600, meaning:'1. 通过对脊柱矢状面的不同层面和所累及椎间盘的横断面影像进行观察分析. 2. 可以直观清晰观察椎间盘突出的部位、程度、形态及其与硬膜囊、神经根等周围组织的关系，对排除炎症、肿瘤等其他病变时优于X线和CT. 3. 能清晰的看到突出椎间盘是否出现游离、脱垂，对于术前进行术区定位和手术方法的制定有重要的参考意义。', remark:'特殊项目', noDiscount:false },
+    { id: 'G2305090410', name: '左膝关节MRI平扫(不含片)', items: ['左膝关节MRI平扫'], priceM:600, priceF:600, priceFM:600, meaning:'可以较好的显示膝关节软组织损伤，半月板以及韧带有没有损伤，还可以观察关节腔有没有积液，有没有骨挫伤；另外可以观察股骨的远端、胫腓骨的近端，有没有肿瘤或肿瘤样病变。', remark:'特殊项目', noDiscount:false },
+    { id: 'G2305060101', name: '右膝关节MRI平扫(不含片)', items: ['右膝关节MRI平扫'], priceM:600, priceF:600, priceFM:600, meaning:'可以较好的显示膝关节软组织损伤，半月板以及韧带有没有损伤，还可以观察关节腔有没有积液，有没有骨挫伤；另外可以观察股骨的远端、胫腓骨的近端，有没有肿瘤或肿瘤样病变。', remark:'特殊项目', noDiscount:false },
+    { id: 'GP230302348', name: '自由基清除能力基因评估(电子版)', items: ['自由基清除能力基因'], priceM:20, priceF:20, priceFM:20, meaning:'通过检测受检者自由基清除能力相关基因，可以更好的了解自身先天的自由基清除能力和抗衰老能力。并根据不同的能力等级评估，来针对性地科学指导饮食和生活方式，从而达到延缓衰老、预防疾病的目的。', remark:'必加项优惠价', noDiscount:false },
+    { id: 'GP230302348', name: '自由基清除能力基因评估(电子版)', items: ['自由基清除能力基因'], priceM:130, priceF:130, priceFM:130, meaning:'通过检测受检者自由基清除能力相关基因，可以更好的了解自身先天的自由基清除能力和抗衰老能力。并根据不同的能力等级评估，来针对性地科学指导饮食和生活方式，从而达到延缓衰老、预防疾病的目的。', remark:'', noDiscount:false },
+    { id: 'GP230302347', name: '美因DNA损伤修复能力评估(电子版)', items: ['DNA损伤修复能力'], priceM:130, priceF:130, priceFM:130, meaning:'通过基因检测 DNA 损伤修复能力，整体判断人体对DNA 损伤的修复能力，从而评估癌症和衰老风险。', remark:'', noDiscount:false },
+    { id: 'GP230302347', name: '美因DNA损伤修复能力评估(电子版)', items: ['DNA损伤修复能力'], priceM:20, priceF:20, priceFM:20, meaning:'通过基因检测 DNA 损伤修复能力，整体判断人体对DNA 损伤的修复能力，从而评估癌症和衰老风险。', remark:'必加项优惠价', noDiscount:false },
+    { id: 'G2501090003', name: '运动减重效果评估(电子版)', items: ['运动减重效果'], priceM:130, priceF:130, priceFM:130, meaning:'通过相关基因检测，从遗传角度评估运动减重的效果，指导体重管理、科学运动。', remark:'导入必加项优惠价20元', noDiscount:false },
+    { id: 'G2304280507', name: '脑健康评估检测（含人类APOE基因ε2、ε3、ε4基因分型）（电子版）', items: ['脑健康评估'], priceM:200, priceF:200, priceFM:200, meaning:'了解3项痴呆类疾病（阿尔茨海默病、路易体痴呆、血管性痴呆）以及3项心脑血管疾病（脑梗死、脑出血、冠心病 ）的遗传风险，早检测早预防。以阿尔茨海默病为例，APOEε4基因型是该病的主要致病基因，ε4ε4携带者在中国人群中占比0.8%，平均发病年龄68岁； 单ε4携带者在中国人群中占比20%，平均发病年龄76岁。', remark:'团单优惠价200元（限500元以上且5折以上随套餐折扣）', noDiscount:false },
+    { id: 'GP230302357', name: 'TP53抑癌基因检测套餐(男)(电子版)', items: ['TP53抑癌基因'], priceM:200, priceF:null, priceFM:null, meaning:'了解男性7项癌症（包括肺癌、食管癌、结直肠癌、前列腺癌、骨肉瘤、神经胶质瘤、头颈癌）遗传风险，以便提前干预，精准体检。P53是一个广谱性抑癌基因，基因变异增加多种癌症的遗传风险。', remark:'团单优惠价200元（限500元以上且6折以上随套餐折扣）', noDiscount:false },
+    { id: 'GP230302356', name: 'TP53抑癌基因检测套餐(女)(电子版)', items: ['TP53抑癌基因'], priceM:null, priceF:200, priceFM:200, meaning:'了解女性8项癌症（包括肺癌、食管癌、结直肠癌、乳腺癌、卵巢癌、骨肉瘤、神经胶质瘤、头颈癌）遗传风险，以便提前干预，精准体检。P53是一个广谱性抑癌基因，基因变异增加多种癌症的遗传风险。', remark:'团单优惠价200元（限500元以上且7折以上随套餐折扣）', noDiscount:false },
+    { id: 'GP230302349', name: '帕金森病风险评估(电子版)', items: ['帕金森病风险'], priceM:200, priceF:200, priceFM:200, meaning:'从遗传、表型症状和环境因素三个方面，了解当下帕金森病的患病风险，及早采取针对性干预措施，延缓或避免该病的发生。', remark:'团单优惠价200元（限500元以上且8折以上随套餐折扣）', noDiscount:false },
+    { id: 'G23030234305', name: '强直性脊柱炎风险评估(电子版)', items: ['强直性脊柱炎风险'], priceM:200, priceF:200, priceFM:200, meaning:'了解强直性脊柱炎的遗传风险，早发现、早干预，可规避或延缓疾病发生。 遗传因素中人类白细胞抗原(HLA)-B27基因与强直性脊柱炎密切相关。', remark:'团单优惠价200元（限500元以上且9折以上随套餐折扣）', noDiscount:false },
+    { id: 'G23030234304', name: '酒精代谢能力基因检测(电子版)', items: ['酒精代谢能力'], priceM:200, priceF:200, priceFM:200, meaning:'了解先天的酒精代谢能力，以便指导安全饮酒。', remark:'团单优惠价200元（限500元以上且10折以上随套餐折扣）', noDiscount:false },
+    { id: 'G23030234303', name: '免疫力综合评估基因检测(电子版)', items: ['免疫力综合评估'], priceM:300, priceF:300, priceFM:300, meaning:'了解先天的自由基清除能力、DNA损伤修复能力，四种维生素（A、C、B2、叶酸）的吸收能力，肺癌、慢性阻塞性肺病、特发性肺纤维化等疾病的遗传风险，来获知综合免疫能力，精准指导免疫力提升计划。', remark:'团单优惠价300元（限500元以上且4折以上随套餐折扣）', noDiscount:false },
+    { id: 'G23030234302', name: '美因男性肿瘤高发10项(电子版)', items: ['男性肿瘤高发10项'], priceM:300, priceF:null, priceFM:null, meaning:'通过检测男性肺癌、肝癌、胃癌、结直肠癌、食管癌、甲状腺癌、胰腺癌、前列腺癌、肾癌、膀胱癌等10种常见癌症的易感基因，在遗传方面评估患这些疾病的风险，筛出对于环境危险因素更加敏感的人群，以便提前干预，精准体检，做好重点预防。', remark:'团单优惠价300元（限500元以上且4折以上随套餐折扣）', noDiscount:false },
+    { id: 'G23030234301', name: '美因女性肿瘤高发13项(电子版)', items: ['女性肿瘤高发13项'], priceM:null, priceF:300, priceFM:300, meaning:'通过检测女性肺癌、肝癌、胃癌、结直肠癌、食管癌、甲状腺癌、胰腺癌、乳腺癌、卵巢癌、宫颈癌、子宫内膜癌、肾癌、膀胱癌等13种常见癌症的易感基因，在遗传方面评估患这些疾病的风险，筛出对于环境危险因素更加敏感的人群，以便提前干预，精准体检，做好重点预防。', remark:'团单优惠价300元（限500元以上且4折以上随套餐折扣）', noDiscount:false },
+    { id: 'G23030234300', name: '美因男性肿瘤全筛15项(电子版)', items: ['男性肿瘤全筛15项'], priceM:500, priceF:null, priceFM:null, meaning:'通过检测男性肺癌、肝癌、胃癌、结直肠癌、食管癌、胰腺癌、甲状腺癌、慢性粒细胞白血病、神经胶质瘤、非何杰金氏淋巴癌、胆囊癌、鼻咽癌、前列腺癌、肾癌、膀胱癌等15种癌症的易感基因，在遗传方面评估患这些疾病的风险，筛出对于环境危险因素更加敏感的人群，以便提前干预，精准体检，做好重点预防。', remark:'团单优惠价500元（限500元以上且4折以上随套餐折扣）', noDiscount:false },
+    { id: 'G23030234299', name: '美因女性肿瘤全筛18项(电子版)', items: ['女性肿瘤全筛18项'], priceM:null, priceF:500, priceFM:500, meaning:'通过检测女性肺癌、肝癌、胃癌、结直肠癌、食管癌、胰腺癌、甲状腺癌、慢性粒细胞白血病、神经胶质瘤、非何杰金氏淋巴癌、胆囊癌、鼻咽癌、乳腺癌、卵巢癌、宫颈癌、子宫内膜癌、肾癌、膀胱癌等18种癌症的易感基因，在遗传方面评估患这些疾病的风险，筛出对于环境危险因素更加敏感的人群，以便提前干预，精准体检，做好重点预防。', remark:'团单优惠价500元（限500元以上且4折以上随套餐折扣）', noDiscount:false },
+    { id: 'G23030234292', name: '遗传性乳腺癌-卵巢癌BRCA1/2基因检测(电子版)', items: ['BRCA1/2基因'], priceM:null, priceF:1500, priceFM:1500, meaning:'检测BRCA1/2基因外显子区域，看是否存在致病或疑似致病变异，了解患遗传性乳腺癌/卵巢癌风险，制定个性化防控措施及专项体检，降低两癌发病风险。 女性BRCA1/2 基因致病变异携带者，乳腺癌风险可高达 72%，卵巢癌风险可高达 44%。', remark:'优惠价1050元（无折扣）', noDiscount:true },
+    { id: 'G23030234291', name: 'Septin9 基因甲基化检测（电子版）', items: ['Septin9基因甲基化'], priceM:1500, priceF:1500, priceFM:1500, meaning:'筛查大肠癌，可每年定期检查。检测外周血中 Septin9 基因的甲基化程度， 判断肠癌的可能性。阳性提示患大肠癌的风险较高，需及时就医，由医生评估是否做肠镜检查来确诊。', remark:'优惠价999元（无折扣）', noDiscount:true },
+    { id: 'G2407170076', name: '美因安 ( 个人全外显子组通用 版套餐 )', items: ['全外显子组'], priceM:19800, priceF:19800, priceFM:19800, meaning:'包含7大类检测项目，检测关键的 180,000 多个外显子区域，筛查 27 项 ACMG 高危疾病、33 项遗传性肿瘤排查重大隐患，723 项隐性遗传病指导优生优育，60 项（男 55 项，女 57 项）复杂疾病，实现疾病早预防、早发现、早治疗，12 大类 85 项药物指导安全用药、11 项膳食营养评估、9 项运动健康评估来指导科学膳食及运动，且含1套健康管理报告及由专业遗传咨询师提供的一对一专业报告解读尊享服务。', remark:'优惠价15800元(无折扣）', noDiscount:true },
+    { id: 'G2407170077', name: '美儿安 ( 个人全外显子组儿童 版套餐 )', items: ['全外显子组儿童版'], priceM:23800, priceF:23800, priceFM:23800, meaning:'包含5大模块，3870项指标，全面守护孩子成长，检测关键的 180,000 多个外显子区域，筛查 3775 项遗传病（ ACMG 高危疾病、出生缺陷及新生儿期疾病、儿童期疾病包含遗传性肿瘤、青春期性腺疾病、成年期系统疾病五大版块）助力家长全面了解孩子的成长隐患， 12 大类 72 项药物的用药风险指导科学用药，14 项个人特质（营养吸收、食物耐受和过敏反应）和 9 项科学运动指导合理搭配营养和强身健体，含1套儿童标准健康管理报告，由专业遗传咨询师提供的一对一专业报告解读尊享服务。', remark:'优惠价16660元(无折扣）', noDiscount:true },
+    { id: 'kit_brain', name: '精包装采样套装-脑健康评估检测', items: ['脑健康评估'], priceM:399, priceF:399, priceFM:399, meaning:'了解3项痴呆类疾病（阿尔茨海默病、路易体痴呆、血管性痴呆）以及3项心脑血管疾病（脑梗死、脑出血、冠心病 ）的遗传风险，早检测早预防。以阿尔茨海默病为例，APOEε4基因型是该病的主要致病基因，ε4ε4携带者在中国人群中占比0.8%，平均发病年龄68岁； 单ε4携带者在中国人群中占比20%，平均发病年龄76岁。', remark:'无折扣 入团单不低于门市价5折', noDiscount:true },
+    { id: 'kit_heart', name: '精包装采样套装-心肌梗死与心力衰竭基因检测', items: ['心肌梗死与心力衰竭基因检测'], priceM:399, priceF:399, priceFM:399, meaning:'了解心肌梗死与心力衰竭的遗传风险，以便提前干预，精准体检。', remark:'无折扣 入团单不低于门市价5折', noDiscount:true },
+    { id: 'kit_colorectal', name: '精包装采样套装-结直肠癌风险评估', items: ['结直肠癌风险评估'], priceM:399, priceF:399, priceFM:399, meaning:'了解结直肠癌的遗传风险，以便提前干预，精准体检。', remark:'无折扣 入团单不低于门市价5折', noDiscount:true },
+    { id: 'kit_liver', name: '精包装采样套装-肝癌风险评估', items: ['肝癌风险评估'], priceM:399, priceF:399, priceFM:399, meaning:'了解肝癌的遗传风险，以便提前干预，精准体检。', remark:'无折扣 入团单不低于门市价5折', noDiscount:true },
+    { id: 'kit_stomach', name: '精包装采样套装-胃癌风险评估', items: ['胃癌风险评估'], priceM:399, priceF:399, priceFM:399, meaning:'了解胃癌的遗传风险，以便提前干预，精准体检。', remark:'无折扣 入团单不低于门市价5折', noDiscount:true },
+    { id: 'kit_ulcer', name: '精包装采样套装-胃溃疡与十二指肠溃疡基因检测', items: ['胃溃疡与十二指肠溃疡基因检测'], priceM:399, priceF:399, priceFM:399, meaning:'了解胃溃疡与十二指肠溃疡的遗传风险，以便提前干预，精准体检。', remark:'无折扣 入团单不低于门市价5折', noDiscount:true },
+    { id: 'kit_virus', name: '精包装采样套装-呼吸道病毒基因检测套餐', items: ['呼吸道病毒基因检测'], priceM:399, priceF:399, priceFM:399, meaning:'了解4类常见呼吸道病毒(包括冠状病毒、甲型流感病毒、呼吸道合胞病毒、鼻病毒) 的先天易感染风险， 指导针对性防控，避免或减少感染。', remark:'无折扣 入团单不低于门市价5折', noDiscount:true },
+    { id: 'kit_alcohol', name: '精包装采样套装-酒精代谢能力基因检测套餐', items: ['酒精代谢能力基因检测'], priceM:399, priceF:399, priceFM:399, meaning:'了解先天酒精代谢能力，指导科学饮酒，避免因饮酒造成肝脏损伤等不良影响', remark:'无折扣 入团单不低于门市价5折', noDiscount:true },
+    { id: 'kit_male_tumor', name: '精包装采样套装-男性肿瘤全筛', items: ['男性肿瘤全筛'], priceM:699, priceF:null, priceFM:null, meaning:'全面了解男性15项癌症（包括肺癌、肝癌、胃癌、结直肠癌、食管癌、胰腺癌、甲状腺癌、慢性粒细胞白血病、神经胶质瘤、非何杰金氏淋巴癌、胆囊癌、鼻咽癌、前列腺癌、肾癌、膀胱癌）的遗传风险 ，以便提前干预，精准体检。', remark:'无折扣 入团单不低于门市价5折', noDiscount:true },
+    { id: 'kit_female_tumor', name: '精包装采样套装-女性肿瘤全筛', items: ['女性肿瘤全筛'], priceM:null, priceF:699, priceFM:699, meaning:'全面了解女性18项癌症（包括肺癌、肝癌、胃癌、结直肠癌、食管癌、胰腺癌、甲状腺癌、慢性粒细胞白血病、神经胶质瘤、非何杰金氏淋巴癌、胆囊癌、鼻咽癌、乳腺癌、卵巢癌、宫颈癌、子宫内膜癌、肾癌、膀胱癌）的遗传风险 ，以便提前干预，精准体检。', remark:'无折扣 入团单不低于门市价5折', noDiscount:true },
+    { id: 'kit_telomere', name: '精包装采样套装-端粒长度基因检测（口腔拭子）', items: ['端粒长度基因检测'], priceM:999, priceF:999, priceFM:999, meaning:'单次检测，评估细胞年龄及当前衰老程度；多次检测可动态监控端粒长度变化，量化衰老速度。饮食、运动、保健品等多种措施均可保护/延长端粒，从而抵御衰老。', remark:'无折扣 入团单不低于门市价5折', noDiscount:true },
+    { id: 'kit_brca', name: '精包装采样套装-遗传性乳腺癌-卵巢癌BRCA1/2基因检测', items: ['BRCA1/2基因检测'], priceM:1599, priceF:1599, priceFM:1599, meaning:'检测BRCA1/2基因外显子区域，看是否存在致病或疑似致病变异，了解患遗传性乳腺癌/卵巢癌风险，制定个性化防控措施及专项体检，降低两癌发病风险。 女性BRCA1/2 基因致病变异携带者，乳腺癌风险可高达 72%，卵巢癌风险可高达 44%。', remark:'无折扣 入团单不低于门市价5折', noDiscount:true },
+    { id: 'kit_hpv', name: '精包装采样套装-HPV 23分型', items: ['HPV 23分型'], priceM:null, priceF:null, priceFM:399, meaning:'该产品定性检测女性宫颈脱落细胞中的23种人乳头瘤病毒（可定期检查）。', remark:'优惠价199元（入团单同价且无折扣）', noDiscount:true },
+    { id: 'GP230304432', name: '七种肺癌相关抗体检测', items: ['P53 自身抗体','PGP9.5 自身抗体','SOX2 自身抗体','GAGE7 自身抗体','GBU4-5 自身抗体','MAGE A1 自身抗体','CAGE 自身抗体'], priceM:600, priceF:600, priceFM:600, meaning:'正常情况下，只有体内存在过肿瘤细胞的人才会产生自身抗体。抗体阳性常见于肺癌高危人群，偶见于自身免疫系统疾病史人群或免疫紊乱人群。', remark:'优惠价499元（无折扣）', noDiscount:true },
+    { id: 'G2507010039', name: '肺结宁', items: ['影像e+肺结节深度分析报告'], priceM:399, priceF:399, priceFM:399, meaning:'通过先进的三维重建和AI辅助技术，由专注肺结宁诊断的公立医院影像科专家深度阅片，详细观察结节的外部构造和内部特征，让客户足不出户就能了解肺结宁的具体情况及科学管理方案。', remark:'无折扣', noDiscount:true },
+    { id: 'O210364', name: '尊享版', items: ['甄选版+七种肺癌相关抗体检测+ 肺健康-检后服务包'], priceM:999, priceF:999, priceFM:999, meaning:'甄选版+七种肺癌相关抗体检测+ 肺健康-检后服务包', remark:'无折扣', noDiscount:true },
+    { id: 'G2408050004', name: '人乳头状瘤病毒（HPV）E6/E7 mRNA检测', items: ['人乳头瘤病毒E6/E7 mRNA'], priceM:null, priceF:null, priceFM:306, meaning:'1.防止过诊、降低患者心理压力和经济压力：HPV E6/E7 mRNA排除可疑或低度病变的能力更强，能够将更多无进展的病变重新归入常规的筛查管理中，可有效减少对疾病严重程度的误判，减轻过度诊断和治疗给患者带来的经济和心理压力；2.HPV E6/E7 mRNA在高级别病变中比DNA检测具备更高的检出率，能够防止漏诊；3.HPV E6/ E7 mRNA可以更准确的反应疾病发展情况，给病人制定合适的治疗方案。', remark:'优惠价260元（无折扣）', noDiscount:true },
+    { id: 'GP230303405', name: '心理健康测评', items: ['症状自评量表（SCL-90）、抑郁自评量表、焦虑自评量表、阿森斯睡眠量表、心理压力量表、艾森克人格问卷。'], priceM:0, priceF:0, priceFM:0, meaning:'症状自评量表（SCL-90）、抑郁自评量表、焦虑自评量表、阿森斯睡眠量表、心理压力量表、艾森克人格问卷。', remark:'满600以上可赠送', noDiscount:false },
+    { id: 'GP230303405', name: '心理健康测评', items: ['症状自评量表（SCL-90）、抑郁自评量表、焦虑自评量表、阿森斯睡眠量表、心理压力量表、艾森克人格问卷。'], priceM:120, priceF:120, priceFM:120, meaning:'症状自评量表（SCL-90）、抑郁自评量表、焦虑自评量表、阿森斯睡眠量表、心理压力量表、艾森克人格问卷。', remark:'', noDiscount:false },
+    { id: 'G2305120001', name: 'AI-MDT多学科专家会诊服务指导版', items: ['AI-MDT多学科专家会诊服务'], priceM:18, priceF:18, priceFM:18, meaning:'结合多学科临床专家的临床经验、国内外临床指南及专家共识，运用 AI 技术，根据体检结果，预测疾病风险，综合分析健康状况，制定个性化健康方案的深度分析报告。', remark:'必加项优惠价', noDiscount:false },
+    { id: 'G2305120001', name: 'AI-MDT多学科专家会诊服务指导版', items: ['AI-MDT多学科专家会诊服务'], priceM:55, priceF:55, priceFM:55, meaning:'结合多学科临床专家的临床经验、国内外临床指南及专家共识，运用 AI 技术，根据体检结果，预测疾病风险，综合分析健康状况，制定个性化健康方案的深度分析报告。', remark:'', noDiscount:false },
+    { id: 'G23031338440', name: '冠心病风险指数评估（钙化积分计算）', items: ['冠心病风险指数'], priceM:15, priceF:15, priceFM:15, meaning:'评估冠状动脉钙化程度的指标，通过CT扫描量化钙化斑块，反映动脉粥样硬化严重程度，预测心血管疾病风险。', remark:'必加项优惠价', noDiscount:false },
+    { id: 'G23031338440', name: '冠心病风险指数评估（钙化积分计算）', items: ['冠心病风险指数'], priceM:130, priceF:130, priceFM:130, meaning:'评估冠状动脉钙化程度的指标，通过CT扫描量化钙化斑块，反映动脉粥样硬化严重程度，预测心血管疾病风险。', remark:'', noDiscount:false },
+    { id: 'G2306140509', name: 'MRI数字云胶片', items: ['MRI数字云胶片'], priceM:60, priceF:60, priceFM:60, meaning:'数字化云胶片是传统实体胶片的一种信息化升级，是一种基于互联网和云储存为基础的新型医学影像服务。即影像图片（像 DR、CT、核磁），可以随时随地通过电脑、iPad、手机这些设备看到。', remark:'', noDiscount:false },
+    { id: 'G2306140509', name: 'MRI数字云胶片', items: ['MRI数字云胶片'], priceM:8, priceF:8, priceFM:8, meaning:'数字化云胶片是传统实体胶片的一种信息化升级，是一种基于互联网和云储存为基础的新型医学影像服务。即影像图片（像 DR、CT、核磁），可以随时随地通过电脑、iPad、手机这些设备看到。', remark:'团单优惠价8元（无折扣）', noDiscount:true },
+    { id: 'G2305190139', name: 'CT数字云胶片', items: ['CT数字云胶片'], priceM:60, priceF:60, priceFM:60, meaning:'数字化云胶片是传统实体胶片的一种信息化升级，是一种基于互联网和云储存为基础的新型医学影像服务。即影像图片（像 DR、CT、核磁），可以随时随地通过电脑、iPad、手机这些设备看到。', remark:'', noDiscount:false },
+    { id: 'G2305190139', name: 'CT数字云胶片', items: ['CT数字云胶片'], priceM:8, priceF:8, priceFM:8, meaning:'数字化云胶片是传统实体胶片的一种信息化升级，是一种基于互联网和云储存为基础的新型医学影像服务。即影像图片（像 DR、CT、核磁），可以随时随地通过电脑、iPad、手机这些设备看到。', remark:'团单优惠价8元（无折扣）', noDiscount:true },
+    { id: 'G2306140507', name: 'DR数字云胶片', items: ['DR数字云胶片'], priceM:60, priceF:60, priceFM:60, meaning:'数字化云胶片是传统实体胶片的一种信息化升级，是一种基于互联网和云储存为基础的新型医学影像服务。即影像图片（像 DR、CT、核磁），可以随时随地通过电脑、iPad、手机这些设备看到。', remark:'', noDiscount:false },
+    { id: 'G2306140507', name: 'DR数字云胶片', items: ['DR数字云胶片'], priceM:8, priceF:8, priceFM:8, meaning:'数字化云胶片是传统实体胶片的一种信息化升级，是一种基于互联网和云储存为基础的新型医学影像服务。即影像图片（像 DR、CT、核磁），可以随时随地通过电脑、iPad、手机这些设备看到。', remark:'团单优惠价8元（无折扣）', noDiscount:true },
+    { id: 'GP230303410', name: 'DR出片1张', items: ['DR出片'], priceM:40, priceF:40, priceFM:40, meaning:'', remark:'无折扣', noDiscount:true },
+    { id: 'G23041964614', name: 'CT出片1张', items: ['CT出片'], priceM:50, priceF:50, priceFM:50, meaning:'', remark:'无折扣', noDiscount:true },
+    { id: 'G2308250005', name: '核磁出片1张', items: ['核磁出片'], priceM:50, priceF:50, priceFM:50, meaning:'', remark:'无折扣', noDiscount:true },
+    { id: 'GP230303417', name: 'CT出片2张', items: ['CT出片'], priceM:100, priceF:100, priceFM:100, meaning:'', remark:'无折扣', noDiscount:true },
+    { id: 'GP230303418', name: '核磁出片2张', items: ['核磁出片'], priceM:100, priceF:100, priceFM:100, meaning:'', remark:'无折扣', noDiscount:true },
+    { id: 'G2307030002', name: '放射 U盘 服务费', items: ['放射 U盘 服务费'], priceM:60, priceF:60, priceFM:60, meaning:'', remark:'无折扣', noDiscount:true },
+    { id: 'GP230303409', name: '一次性卫材', items: ['一次性卫材'], priceM:10, priceF:10, priceFM:10, meaning:'', remark:'', noDiscount:false },
+    { id: 'US_image', name: '超声图文/张', items: ['超声图文'], priceM:10, priceF:10, priceFM:10, meaning:'', remark:'无折扣', noDiscount:true },
+    { id: 'paper_report', name: '纸质报告补打', items: ['纸质报告'], priceM:20, priceF:20, priceFM:20, meaning:'', remark:'无折扣', noDiscount:true },
+    { id: 'GP230303406', name: '营养早餐', items: ['营养自助早餐'], priceM:10, priceF:10, priceFM:10, meaning:'营养均衡自助早餐', remark:'无折扣', noDiscount:true },
+    { id: 'GP230303406', name: '营养早餐', items: ['营养自助早餐'], priceM:0, priceF:0, priceFM:0, meaning:'营养均衡自助早餐', remark:'满赠', noDiscount:false },
+    { id: 'GP230303408', name: '总检', items: ['报告汇总'], priceM:0, priceF:0, priceFM:0, meaning:'报告汇总，个性化报告分析及健康指导（电子报告）', remark:'', noDiscount:false },
+    { id: 'GP230303407', name: '抽血', items: ['静脉采血'], priceM:0, priceF:0, priceFM:0, meaning:'', remark:'', noDiscount:false },
+    { id: 'report_consult', name: '报告咨询', items: ['一对一解读'], priceM:0, priceF:0, priceFM:0, meaning:'报告讲解（一对一）', remark:'', noDiscount:false },
+    { id: 'G2305020023', name: '健康证（公共卫生）', items: ['健康证（公共卫生）'], priceM:120, priceF:120, priceFM:120, meaning:'', remark:'无折扣', noDiscount:true }
+];
+
+const MANDATORY_ITEMS = [
+    { id: 'GP230303409', name: '一次性卫材', items: ['一次性卫材'], priceM:10, priceF:10, priceFM:10, meaning:'一次性使用卫生材料（必加项）', remark:'必加项，参与折扣', noDiscount:false }
+];
+const FREE_ITEMS = [
+    { id: 'GP230303406', name: '营养早餐', items: ['营养自助早餐'], priceM:0, priceF:0, priceFM:0, meaning:'营养均衡自助早餐', remark:'满赠', noDiscount:false },
+    { id: 'GP230303408', name: '总检', items: ['报告汇总'], priceM:0, priceF:0, priceFM:0, meaning:'报告汇总，个性化报告分析及健康指导（电子报告）', remark:'', noDiscount:false },
+    { id: 'GP230303407', name: '抽血', items: ['静脉采血'], priceM:0, priceF:0, priceFM:0, meaning:'', remark:'', noDiscount:false },
+    { id: 'report_consult', name: '报告咨询', items: ['一对一解读'], priceM:0, priceF:0, priceFM:0, meaning:'报告讲解（一对一）', remark:'', noDiscount:false }
+];
+
+// ============================================================
+// ===== 新增：必加项规则数据 =====
+// ============================================================
+const RULES_DATA = [
+    { codes: ['Q0101102'], names: ['AI-MDT多学科专家会诊服务指导版'], rule: '除入职、入学、职业健康体检之外的300元（含）以上套餐，该项目为必选项。', tag: '必选' },
+    { codes: ['P0107002'], names: ['冠状动脉钙化积分'], rule: '带胸部CT扫描的套餐，且年龄在≥35岁时，该项目为必选项。', tag: '必选' },
+    { codes: ['22O01U0414', '22O01U0415'], names: ['CT数字云胶片', 'MRI数字云胶片'], rule: '带DR、CT及核磁共振扫描项目的套餐可根据情况自由选择，不做强制要求。', tag: '可选' },
+    { codes: ['22L01U5671', '22L01U5644', '22L01U56L14'], names: ['自由基清除能力评估（电子版）', 'DNA损伤修复能力评估', '运动减重效果评估(电子版)'], rule: '三选一，折后价600元（含）以上体检套餐，该项目为3个项目必选1项入套餐。', tag: '三选一' },
+    { codes: ['22L01U1003', '22L01U2516', '22C04U0901'], names: ['大便隐血定量qFIT检测', '脂联素测定', '眼底AI'], rule: '折后价800元（含）以上的体检套餐，"大便隐血定量qFIT检测"项目必选，其余项目2选1。', tag: '必选+2选1' },
+    { codes: ['22L01U6310'], names: ['粪便DNA肠癌甲基化检测'], rule: '折后价2000元（含）以上体检套餐，该项目为必选项。若套餐已包含肠癌甲基化项目，则可解绑800元（含）以上规则。', tag: '必选' }
+];
+
+function renderRulesTable() {
+    const tbody = document.getElementById('rulesTableBody');
+    let html = '';
+    RULES_DATA.forEach((item, index) => {
+        const codeDisplay = item.codes.join('<br>');
+        const nameDisplay = item.names.join('<br>');
+        let tagClass = 'tag-required';
+        if (item.tag === '可选') tagClass = 'tag-optional';
+        else if (item.tag === '三选一') tagClass = 'tag-optional';
+        else if (item.tag === '必选+2选1') tagClass = 'tag-required';
+        html += `<tr>
+            <td class="code-cell">${codeDisplay}</td>
+            <td class="name-cell">${nameDisplay}</td>
+            <td class="rule-cell">${item.rule} <span class="${tagClass}">${item.tag}</span></td>
+        </tr>`;
+    });
+    tbody.innerHTML = html;
+}
+function showRulesModal() { document.getElementById('rulesOverlay').classList.add('show'); document.body.style.overflow = 'hidden'; }
+function hideRulesModal() { document.getElementById('rulesOverlay').classList.remove('show'); document.body.style.overflow = ''; }
+
+// ============================================================
+// 状态
+// ============================================================
+let projects = JSON.parse(JSON.stringify(INIT_DATA));
+projects.forEach((p, idx) => { p.uid = p.id + '_' + idx; });
+
+const defaultSelectedIdList = ['G23030234503','G23030234500','G23031744290','G23030234515','GP230302360','GP230302368','G23030434833','G23040353163','G23030434840','G23030434807','GP230303395'];
+let selectedIds = [];
+projects.forEach(p => { if (defaultSelectedIdList.includes(p.id)) selectedIds.push(p.uid); });
+
+function hasPrice(item) { return (item.priceM!==null && item.priceM!==undefined) || (item.priceF!==null && item.priceF!==undefined) || (item.priceFM!==null && item.priceFM!==undefined); }
+function isFree(item) { return item.priceM===0 && item.priceF===0 && item.priceFM===0; }
+function isNoDiscount(item) {
+    if (item.noDiscount === true) return true;
+    if (item.id === 'G23031338440' || item.id === 'G2305120001') return false;
+    if (item.remark && (item.remark.includes('无折扣') || item.remark.includes('优惠价') || item.remark.includes('不可折'))) return true;
+    return false;
+}
+function getAllItems() { return [...projects, ...FREE_ITEMS]; }
+function findItem(uid) { return getAllItems().find(p=>p.uid===uid); }
+function getMandatoryItems() { return MANDATORY_ITEMS; }
+
+function showToast(message, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast-item ${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(40px)'; setTimeout(() => toast.remove(), 300); }, 3000);
+}
+
+// ★★★ 云同步：获取和恢复状态 ★★★
+function getAppState() {
+    return {
+        projects: projects,
+        selectedIds: selectedIds,
+        discounts: {
+            male: document.getElementById('discountMale')?.value || '',
+            female: document.getElementById('discountFemale')?.value || '',
+            femaleMarried: document.getElementById('discountFemaleMarried')?.value || ''
+        },
+        schemes: getSchemes()
+    };
+}
+function applyAppState(state) {
+    if (!state) return false;
+    if (state.projects) {
+        projects = state.projects;
+        projects.forEach((p, idx) => { if(!p.uid) p.uid = p.id + '_' + idx; });
+    }
+    if (state.selectedIds) {
+        selectedIds = state.selectedIds;
+    }
+    if (state.discounts) {
+        setTimeout(() => {
+            const dm = document.getElementById('discountMale');
+            const df = document.getElementById('discountFemale');
+            const dfm = document.getElementById('discountFemaleMarried');
+            if (dm) dm.value = state.discounts.male || '';
+            if (df) df.value = state.discounts.female || '';
+            if (dfm) dfm.value = state.discounts.femaleMarried || '';
+            renderPackageFooter();
+        }, 50);
+    }
+    if (state.schemes) { 
+        saveSchemes(state.schemes);
+    }
+    return true;
+}
+
+// ============================================================
+// 方案管理
+// ============================================================
+let currentSchemeName = null;
+function getSchemes() { try { return JSON.parse(localStorage.getItem('packageSchemes') || '{}'); } catch(e) { return {}; } }
+function saveSchemes(schemes) { localStorage.setItem('packageSchemes', JSON.stringify(schemes)); }
+
+function loadScheme(name) {
+    const schemes = getSchemes();
+    const data = schemes[name];
+    if (!data) { showToast('方案 "' + name + '" 不存在', 'info'); return; }
+    selectedIds = data.selectedIds || [];
+    if (data.projectPrices) {
+        data.projectPrices.forEach(p => {
+            const item = projects.find(proj => proj.uid === p.uid);
+            if (item) { item.priceM = p.priceM; item.priceF = p.priceF; item.priceFM = p.priceFM; }
+        });
+    }
+    if (data.discountMale !== undefined) document.getElementById('discountMale').value = data.discountMale;
+    if (data.discountFemale !== undefined) document.getElementById('discountFemale').value = data.discountFemale;
+    if (data.discountFemaleMarried !== undefined) document.getElementById('discountFemaleMarried').value = data.discountFemaleMarried;
+    renderPackage();
+    currentSchemeName = name;
+    updateSchemeSelect();
+    showToast('已加载方案：' + name, 'success');
+    CloudSync.scheduleSave(getAppState());
+}
+function saveCurrentScheme(name) {
+    const schemes = getSchemes();
+    if (schemes[name]) { if (!confirm('方案 "' + name + '" 已存在，是否覆盖？')) return; }
+    const selectedItems = selectedIds.map(uid => findItem(uid)).filter(Boolean);
+    const projectPrices = selectedItems.map(item => ({ uid: item.uid, priceM: item.priceM, priceF: item.priceF, priceFM: item.priceFM }));
+    schemes[name] = { selectedIds: selectedIds, projectPrices: projectPrices, discountMale: document.getElementById('discountMale').value || '', discountFemale: document.getElementById('discountFemale').value || '', discountFemaleMarried: document.getElementById('discountFemaleMarried').value || '' };
+    saveSchemes(schemes);
+    currentSchemeName = name;
+    updateSchemeSelect();
+    showToast('方案 "' + name + '" 已保存', 'success');
+    CloudSync.scheduleSave(getAppState());
+}
+function deleteScheme(name) {
+    if (!name) { alert('请先选择一个方案'); return; }
+    const schemes = getSchemes();
+    if (!schemes[name]) { alert('方案 "' + name + '" 不存在'); return; }
+    if (!confirm('确定删除方案 "' + name + '" 吗？')) return;
+    delete schemes[name];
+    saveSchemes(schemes);
+    if (currentSchemeName === name) currentSchemeName = null;
+    updateSchemeSelect();
+    showToast('已删除方案：' + name, 'info');
+    CloudSync.scheduleSave(getAppState());
+}
+function updateSchemeSelect() {
+    const select = document.getElementById('schemeSelect');
+    const schemes = getSchemes();
+    select.innerHTML = '<option value="">加载方案</option>';
+    Object.keys(schemes).forEach(name => { const opt = document.createElement('option'); opt.value = name; opt.textContent = name; select.appendChild(opt); });
+    if (currentSchemeName && schemes[currentSchemeName]) select.value = currentSchemeName;
+    else select.value = '';
+}
+
+// ============================================================
+// 渲染套餐
+// ============================================================
+function renderPackageBody() {
+    const tbody = document.getElementById('packageBody');
+    const selectedItems = selectedIds.map(uid=>findItem(uid)).filter(Boolean);
+    document.getElementById('selectedCount').textContent = `已选 ${selectedItems.length} 项 + ${getMandatoryItems().length} 项必加`;
+    let html = '';
+    if(selectedItems.length===0) {
+        html = `<tr><td colspan="9" class="empty-state">暂无项目，请从上方搜索添加</td></tr>`;
+    } else {
+        selectedItems.forEach((item,idx)=>{
+            const itemsStr = Array.isArray(item.items) ? item.items.join('、') : item.items||'';
+            const noDisc = isNoDiscount(item);
+            let displayId = item.id;
+            if (item.name === '营养早餐' && item.remark === '满赠') displayId = 'GP230303406';
+            html += `<tr>
+                <td>${idx+1}</td>
+                <td class="col-code">${displayId}</td>
+                <td class="col-name">${item.name}${noDisc?' <span class="no-discount-tag">无折扣</span>':''}</td>
+                <td class="col-items">${itemsStr}</td>
+                <td class="col-meaning">${item.meaning||''}</td>
+                <td class="col-price price-male"><input class="price-input-sm" type="text" value="${item.priceM!==null&&item.priceM!==undefined?item.priceM:''}" data-uid="${item.uid}" data-gender="M" oninput="updatePrice(this)" placeholder="-"></td>
+                <td class="col-price price-female"><input class="price-input-sm" type="text" value="${item.priceF!==null&&item.priceF!==undefined?item.priceF:''}" data-uid="${item.uid}" data-gender="F" oninput="updatePrice(this)" placeholder="-"></td>
+                <td class="col-price price-female"><input class="price-input-sm" type="text" value="${item.priceFM!==null&&item.priceFM!==undefined?item.priceFM:''}" data-uid="${item.uid}" data-gender="FM" oninput="updatePrice(this)" placeholder="-"></td>
+                <td class="col-action"><button class="btn btn-danger btn-sm" onclick="removeSelected('${item.uid}')">✕</button></td>
+            </tr>`;
+        });
+    }
+    tbody.innerHTML = html;
+}
+
+let footerUpdateTimer = null;
+function renderPackageFooter() {
+    if(footerUpdateTimer) clearTimeout(footerUpdateTimer);
+    footerUpdateTimer = setTimeout(()=>{
+        const tfoot = document.getElementById('packageFoot');
+        const selectedItems = selectedIds.map(uid=>findItem(uid)).filter(Boolean);
+        const mandatory = getMandatoryItems();
+        const allItems = [...selectedItems, ...mandatory];
+        const discMaleEl = document.getElementById('discountMale');
+        const discFemaleEl = document.getElementById('discountFemale');
+        const discFemaleMarriedEl = document.getElementById('discountFemaleMarried');
+        const discMaleVal = discMaleEl ? discMaleEl.value : '';
+        const discFemaleVal = discFemaleEl ? discFemaleEl.value : '';
+        const discFemaleMarriedVal = discFemaleMarriedEl ? discFemaleMarriedEl.value : '';
+        const focusedId = document.activeElement ? document.activeElement.id : '';
+
+        const specialItems = selectedItems.filter(item => item.remark && item.remark.includes('特殊项目'));
+        const specialCount = specialItems.length;
+
+        let footerHtml = '';
+        mandatory.forEach((item,idx)=>{
+            const itemsStr = Array.isArray(item.items)?item.items.join('、'):item.items||'';
+            footerHtml += `<tr class="footer-row-mandatory">
+                <td>${selectedItems.length+idx+1}</td>
+                <td class="col-code">${item.id}</td>
+                <td class="col-name">${item.name}</td>
+                <td class="col-items">${itemsStr}</td>
+                <td class="col-meaning">${item.meaning||''}</td>
+                <td class="col-price price-male">${item.priceM!==null?'¥'+item.priceM:'-'}</td>
+                <td class="col-price price-female">${item.priceF!==null?'¥'+item.priceF:'-'}</td>
+                <td class="col-price price-female">${item.priceFM!==null?'¥'+item.priceFM:'-'}</td>
+                <td class="col-action">—</td>
+            </tr>`;
+        });
+        const freeStartIdx = selectedItems.length + mandatory.length;
+        FREE_ITEMS.forEach((item,idx)=>{
+            const itemsStr = Array.isArray(item.items)?item.items.join('、'):item.items||'';
+            let displayId = item.id;
+            if (item.name === '营养早餐' && item.remark === '满赠') displayId = 'GP230303406';
+            footerHtml += `<tr class="footer-row-free">
+                <td>${freeStartIdx+idx+1}</td>
+                <td class="col-code">${displayId}</td>
+                <td class="col-name">${item.name}</td>
+                <td class="col-items">${itemsStr}</td>
+                <td class="col-meaning">${item.meaning||''}</td>
+                <td class="col-price price-male">¥0</td>
+                <td class="col-price price-female">¥0</td>
+                <td class="col-price price-female">¥0</td>
+                <td class="col-action">—</td>
+            </tr>`;
+        });
+        const totals = calculateTotals(allItems);
+        const noDiscTotals = calculateNoDiscountTotals(allItems);
+        footerHtml += `<tr class="footer-row footer-row-total" style="background:#f4f8fe !important;">
+            <td colspan="5" style="text-align:right;font-weight:700;">无折扣项目总价</td>
+            <td class="col-price price-male">¥${noDiscTotals.male.toFixed(2)}</td>
+            <td class="col-price price-female">¥${noDiscTotals.female.toFixed(2)}</td>
+            <td class="col-price price-female">¥${noDiscTotals.femaleMarried.toFixed(2)}</td>
+            <td colspan="2"></td>
+        </tr>`;
+        footerHtml += `<tr class="footer-row footer-row-total">
+            <td colspan="5" style="text-align:right;font-weight:700;">门市价合计</td>
+            <td class="col-price price-male">¥${totals.male.toFixed(2)}</td>
+            <td class="col-price price-female">¥${totals.female.toFixed(2)}</td>
+            <td class="col-price price-female">¥${totals.femaleMarried.toFixed(2)}</td>
+            <td colspan="2"></td>
+        </tr>`;
+
+        footerHtml += `<tr class="footer-row footer-row-special">
+            <td colspan="5" style="text-align:right;font-weight:600; color: #5b21b6;">特殊项目 ${specialCount} 个</td>
+            <td class="col-price" colspan="3"></td>
+            <td class="col-action"></td>
+        </tr>`;
+
+        const discMale = parseFloat(discMaleVal)||0;
+        const discFemale = parseFloat(discFemaleVal)||0;
+        const discFemaleMarried = parseFloat(discFemaleMarriedVal)||0;
+        footerHtml += `<tr class="footer-row footer-row-discount">
+            <td colspan="5" style="text-align:right;font-weight:700;">优惠价（输入）</td>
+            <td class="col-price"><input type="text" id="discountMale" value="${discMaleVal}" style="width:90px;text-align:center;direction:ltr;" oninput="this.value=this.value.replace(/[^0-9.]/g,''); renderPackageFooter(); CloudSync.scheduleSave(getAppState());"></td>
+            <td class="col-price"><input type="text" id="discountFemale" value="${discFemaleVal}" style="width:90px;text-align:center;direction:ltr;" oninput="this.value=this.value.replace(/[^0-9.]/g,''); renderPackageFooter(); CloudSync.scheduleSave(getAppState());"></td>
+            <td class="col-price"><input type="text" id="discountFemaleMarried" value="${discFemaleMarriedVal}" style="width:90px;text-align:center;direction:ltr;" oninput="this.value=this.value.replace(/[^0-9.]/g,''); renderPackageFooter(); CloudSync.scheduleSave(getAppState());"></td>
+            <td colspan="2"></td>
+        </tr>`;
+        const calcRate = (disc,total,noDisc)=>{ const base=total-noDisc; if(base===0)return 0; const eff=disc-noDisc; if(eff<0)return 0; return eff/base; };
+        const rateMale=calcRate(discMale,totals.male,noDiscTotals.male);
+        const rateFemale=calcRate(discFemale,totals.female,noDiscTotals.female);
+        const rateFemaleMarried=calcRate(discFemaleMarried,totals.femaleMarried,noDiscTotals.femaleMarried);
+        const fmtRate=r=>{ if(r===0)return '0%'; return (r*100).toFixed(2)+'%'; };
+        footerHtml += `<tr class="footer-row footer-row-discount">
+            <td colspan="5" style="text-align:right;font-weight:700;">折扣</td>
+            <td class="col-price price-male discount-rate ${rateMale>=0.5?'good':'bad'}">${fmtRate(rateMale)}</td>
+            <td class="col-price price-female discount-rate ${rateFemale>=0.5?'good':'bad'}">${fmtRate(rateFemale)}</td>
+            <td class="col-price price-female discount-rate ${rateFemaleMarried>=0.5?'good':'bad'}">${fmtRate(rateFemaleMarried)}</td>
+            <td colspan="2"></td>
+        </tr>`;
+        tfoot.innerHTML = footerHtml;
+        const newDiscMale = document.getElementById('discountMale');
+        const newDiscFemale = document.getElementById('discountFemale');
+        const newDiscFemaleMarried = document.getElementById('discountFemaleMarried');
+        if(newDiscMale) newDiscMale.value = discMaleVal;
+        if(newDiscFemale) newDiscFemale.value = discFemaleVal;
+        if(newDiscFemaleMarried) newDiscFemaleMarried.value = discFemaleMarriedVal;
+        if(focusedId==='discountMale' && newDiscMale){ newDiscMale.focus(); newDiscMale.setSelectionRange(newDiscMale.value.length,newDiscMale.value.length); }
+        else if(focusedId==='discountFemale' && newDiscFemale){ newDiscFemale.focus(); newDiscFemale.setSelectionRange(newDiscFemale.value.length,newDiscFemale.value.length); }
+        else if(focusedId==='discountFemaleMarried' && newDiscFemaleMarried){ newDiscFemaleMarried.focus(); newDiscFemaleMarried.setSelectionRange(newDiscFemaleMarried.value.length,newDiscFemaleMarried.value.length); }
+        footerUpdateTimer = null;
+    },10);
+}
+function renderPackage(){ renderPackageBody(); renderPackageFooter(); }
+
+function removeSelected(uid){
+    const item = findItem(uid);
+    selectedIds = selectedIds.filter(pid=>pid!==uid);
+    renderPackage();
+    if (item) showToast('已移除：' + item.name, 'info');
+    CloudSync.scheduleSave(getAppState());
+}
+
+function addItemByUid(uid) {
+    if (!selectedIds.includes(uid)) {
+        const item = findItem(uid);
+        selectedIds.push(uid);
+        renderPackage();
+        if (item) showToast('已添加：' + item.name, 'success');
+        CloudSync.scheduleSave(getAppState());
+    } else {
+        alert('项目已添加');
+    }
+}
+
+// ============================================================
+// 项目总表
+// ============================================================
+function renderMaster(filter=''){
+    const tbody = document.getElementById('masterBody');
+    let filtered = projects;
+    if(filter.trim()){
+        const q = filter.toLowerCase();
+        filtered = projects.filter(p=>p.name.toLowerCase().includes(q)||(p.id&&p.id.toLowerCase().includes(q))||(Array.isArray(p.items)&&p.items.some(i=>i.toLowerCase().includes(q))));
+    }
+    document.getElementById('masterCount').textContent = `共 ${filtered.length} 项`;
+    let html='';
+    filtered.forEach((item,idx)=>{
+        const itemsStr = Array.isArray(item.items)?item.items.join('、'):item.items||'';
+        html += `<tr>
+            <td>${idx+1}</td>
+            <td><input class="editable-input" data-field="id" data-uid="${item.uid}" value="${item.id}" style="font-size:12px;"></td>
+            <td><input class="editable-input" data-field="name" data-uid="${item.uid}" value="${item.name}"></td>
+            <td><input class="editable-input" data-field="items" data-uid="${item.uid}" value="${itemsStr}"></td>
+            <td><input class="editable-input" data-field="meaning" data-uid="${item.uid}" value="${item.meaning||''}"></td>
+            <td><input class="editable-input price-input" data-field="priceM" data-uid="${item.uid}" value="${item.priceM!==null&&item.priceM!==undefined?item.priceM:''}" style="width:60px;"></td>
+            <td><input class="editable-input price-input" data-field="priceF" data-uid="${item.uid}" value="${item.priceF!==null&&item.priceF!==undefined?item.priceF:''}" style="width:60px;"></td>
+            <td><input class="editable-input price-input" data-field="priceFM" data-uid="${item.uid}" value="${item.priceFM!==null&&item.priceFM!==undefined?item.priceFM:''}" style="width:60px;"></td>
+            <td><input class="editable-input" data-field="remark" data-uid="${item.uid}" value="${item.remark||''}"></td>
+            <td class="col-action"><button class="btn btn-danger btn-sm" onclick="deleteProject('${item.uid}')">✕</button></td>
+        </tr>`;
+    });
+    tbody.innerHTML = html;
+    document.querySelectorAll('#masterBody .editable-input').forEach(input=>{
+        input.addEventListener('change',function(){
+            const uid=this.dataset.uid; const field=this.dataset.field; const val=this.value;
+            const item=projects.find(p=>p.uid===uid); if(!item)return;
+            if(field==='items'){ item.items=val.split(/[，,、\s]+/).filter(s=>s.trim()!==''); }
+            else if(field==='priceM'||field==='priceF'||field==='priceFM'){ const num=parseFloat(val); item[field]=isNaN(num)?null:num; }
+            else { item[field]=val; }
+            renderPackage(); renderMaster(document.getElementById('masterSearchInput').value);
+            CloudSync.scheduleSave(getAppState());
+        });
+    });
+}
+function deleteProject(uid){ if(!confirm('确定删除该项目吗？'))return; projects=projects.filter(p=>p.uid!==uid); selectedIds=selectedIds.filter(pid=>pid!==uid); renderMaster(document.getElementById('masterSearchInput').value); renderPackage(); CloudSync.scheduleSave(getAppState()); }
+function addProject(){ const newId='new_'+Date.now(); const newUid = newId + '_' + Date.now(); projects.push({uid:newUid, id:newId, name:'新项目',items:['细项1'],priceM:null,priceF:null,priceFM:null,meaning:'',remark:'',noDiscount:false}); renderMaster(document.getElementById('masterSearchInput').value); renderPackage(); CloudSync.scheduleSave(getAppState()); }
+function exportData(){ const data=JSON.stringify(projects,null,2); const blob=new Blob([data],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='体检项目数据.json'; a.click(); URL.revokeObjectURL(a.href); }
+function importData(){ const input=document.createElement('input'); input.type='file'; input.accept='.json'; input.onchange=function(e){ const file=e.target.files[0]; if(!file)return; const reader=new FileReader(); reader.onload=function(ev){ try{ const data=JSON.parse(ev.target.result); if(Array.isArray(data)){ projects=data; selectedIds=selectedIds.filter(uid=>projects.some(p=>p.uid===uid)); renderMaster(document.getElementById('masterSearchInput').value); renderPackage(); alert('数据导入成功！'); CloudSync.scheduleSave(getAppState()); }else{alert('无效的数据格式');} }catch(err){ alert('导入失败：'+err.message); } }; reader.readAsText(file); }; input.click(); }
+
+// ============================================================
+// 下载套餐
+// ============================================================
+function downloadPackage() {
+    const selectedItems = selectedIds.map(uid=>findItem(uid)).filter(Boolean);
+    const mandatory = getMandatoryItems();
+    const allItems = [...selectedItems, ...mandatory, ...FREE_ITEMS];
+    const filteredItems = allItems;
+    if(filteredItems.length===0){ alert('请先添加项目！'); return; }
+
+    const startRow = 2;
+    const endRow = startRow + filteredItems.length - 1;
+    const noDiscRow = endRow + 1;
+    const totalRow = endRow + 2;
+    const discRow = endRow + 3;
+    const rateRow = endRow + 4;
+
+    const colM = 'F';
+    const colF = 'G';
+    const colFM = 'H';
+    const colFlag = 'I';
+
+    const maleTotalFormula = `=SUM(${colM}${startRow}:${colM}${endRow})`;
+    const femaleTotalFormula = `=SUM(${colF}${startRow}:${colF}${endRow})`;
+    const femaleMarriedTotalFormula = `=SUM(${colFM}${startRow}:${colFM}${endRow})`;
+
+    const noDiscMaleFormula = `=SUMIF(${colFlag}${startRow}:${colFlag}${endRow},"无折扣",${colM}${startRow}:${colM}${endRow})`;
+    const noDiscFemaleFormula = `=SUMIF(${colFlag}${startRow}:${colFlag}${endRow},"无折扣",${colF}${startRow}:${colF}${endRow})`;
+    const noDiscFemaleMarriedFormula = `=SUMIF(${colFlag}${startRow}:${colFlag}${endRow},"无折扣",${colFM}${startRow}:${colFM}${endRow})`;
+
+    const discMale = parseFloat(document.getElementById('discountMale')?.value)||0;
+    const discFemale = parseFloat(document.getElementById('discountFemale')?.value)||0;
+    const discFemaleMarried = parseFloat(document.getElementById('discountFemaleMarried')?.value)||0;
+
+    const maleRateFormula = `=IFERROR((${colM}${discRow} - ${colM}${noDiscRow}) / (${colM}${totalRow} - ${colM}${noDiscRow}), 0)`;
+    const femaleRateFormula = `=IFERROR((${colF}${discRow} - ${colF}${noDiscRow}) / (${colF}${totalRow} - ${colF}${noDiscRow}), 0)`;
+    const femaleMarriedRateFormula = `=IFERROR((${colFM}${discRow} - ${colFM}${noDiscRow}) / (${colFM}${totalRow} - ${colFM}${noDiscRow}), 0)`;
+
+    let html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>套餐</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+<style>
+    td { mso-number-format:"0.00"; }
+    .rate { mso-number-format:"0.00%"; }
+    .hidden-col { display: none !important; visibility: hidden !important; width: 0px !important; mso-width-source: userset; mso-width: 0 !important; padding: 0 !important; border: none !important; font-size: 0px !important; }
+</style>
+</head><body><table border="1" cellpadding="3" style="font-size:12px; font-family: Arial, sans-serif;">
+    <colgroup>
+        <col style="width: 30px;">
+        <col style="width: 80px;">
+        <col style="width: 120px;">
+        <col style="width: 120px;">
+        <col style="width: 180px;">
+        <col style="width: 70px;">
+        <col style="width: 70px;">
+        <col style="width: 70px;">
+        <col class="hidden-col">
+    </colgroup>`;
+
+    html += `<tr>
+        <th>序号</th><th>项目编码</th><th>项目名称</th><th>细项</th><th>临床意义</th>
+        <th>男性价格</th><th>未婚女价格</th><th>已婚女价格</th>
+        <th class="hidden-col"></th>
+    </tr>`;
+
+    filteredItems.forEach((item, idx) => {
+        const itemsStr = Array.isArray(item.items) ? item.items.join('、') : item.items || '';
+        const priceM = (item.priceM !== null && item.priceM !== undefined) ? item.priceM : '';
+        const priceF = (item.priceF !== null && item.priceF !== undefined) ? item.priceF : '';
+        const priceFM = (item.priceFM !== null && item.priceFM !== undefined) ? item.priceFM : '';
+        const name = item.name;
+        const isNoDiscTag = isNoDiscount(item) ? '无折扣' : '';
+        let displayId = item.id;
+        if (item.name === '营养早餐' && item.remark === '满赠') displayId = 'GP230303406';
+        html += `<tr>
+            <td style="mso-number-format:0;">${idx+1}</td>
+            <td>${displayId}</td>
+            <td>${name}</td>
+            <td>${itemsStr}</td>
+            <td>${item.meaning||''}</td>
+            <td>${priceM}</td>
+            <td>${priceF}</td>
+            <td>${priceFM}</td>
+            <td class="hidden-col">${isNoDiscTag}</td>
+        </tr>`;
+    });
+
+    html += `<tr><td colspan="5" style="text-align:right;">无折扣项目总价</td>
+        <td>${noDiscMaleFormula}</td>
+        <td>${noDiscFemaleFormula}</td>
+        <td>${noDiscFemaleMarriedFormula}</td>
+        <td class="hidden-col"></td></tr>`;
+    html += `<tr><td colspan="5" style="text-align:right;">门市价合计</td>
+        <td>${maleTotalFormula}</td>
+        <td>${femaleTotalFormula}</td>
+        <td>${femaleMarriedTotalFormula}</td>
+        <td class="hidden-col"></td></tr>`;
+    html += `<tr><td colspan="5" style="text-align:right;">优惠价</td>
+        <td>${discMale.toFixed(2)}</td>
+        <td>${discFemale.toFixed(2)}</td>
+        <td>${discFemaleMarried.toFixed(2)}</td>
+        <td class="hidden-col"></td></tr>`;
+    html += `<tr><td colspan="5" style="text-align:right;">折扣</td>
+        <td class="rate">${maleRateFormula}</td>
+        <td class="rate">${femaleRateFormula}</td>
+        <td class="rate">${femaleMarriedRateFormula}</td>
+        <td class="hidden-col"></td></tr>`;
+
+    html += `<tr><td colspan="8" style="text-align:left;font-size:12px;background:#fcfcfc;border-top:2px solid #d0d9e5;padding:4px 8px;color:#e74c3c;">备注：套餐导入系统时</td><td class="hidden-col"></td></tr>`;
+    html += `<tr><td colspan="8" style="text-align:left;font-size:12px;background:#fcfcfc;padding:4px 8px;">1、删除序号列</td><td class="hidden-col"></td></tr>`;
+    html += `<tr><td colspan="8" style="text-align:left;font-size:12px;background:#fcfcfc;padding:4px 8px;">2、删除"细项"，"临床意义"列清除内容或删除后男性列左侧新增空白行。</td><td class="hidden-col"></td></tr>`;
+    html += `<tr><td colspan="8" style="text-align:left;font-size:12px;background:#fcfcfc;padding:4px 8px;">3、男女有价格的项目统一更换为文字"是"。</td><td class="hidden-col"></td></tr>`;
+    html += `<tr><td colspan="8" style="text-align:left;font-size:12px;background:#fcfcfc;padding:4px 8px;">4、"报告咨询、无折扣项目总价、门市价、优惠价、折扣"这5行，包括备注开始以下行都删除或复制时排除。</td><td class="hidden-col"></td></tr>`;
+    html += `<tr><td colspan="8" style="text-align:left;font-size:12px;background:#fcfcfc;padding:4px 8px;border-bottom:1px solid #d0d9e5;">5、复制以上操作后的内容粘贴导入模板即可系统导入套餐。</td><td class="hidden-col"></td></tr>`;
+    html += `<tr><td colspan="8" style="text-align:left;font-size:12px;background:#fcfcfc;padding:4px 8px;">联系人：</td><td class="hidden-col"></td></tr>`;
+    html += `<tr><td colspan="8" style="text-align:left;font-size:12px;background:#fcfcfc;padding:4px 8px;">联系电话：</td><td class="hidden-col"></td></tr>`;
+    html += `<tr><td colspan="8" style="text-align:left;font-size:12px;background:#fcfcfc;padding:4px 8px;">美年大健康产业控股股份有限公司</td><td class="hidden-col"></td></tr>`;
+    html += `<tr><td colspan="8" style="text-align:left;font-size:12px;background:#fcfcfc;padding:4px 8px;">石家庄桥西门诊部 ：河北省石家庄市桥西区友谊北大街75号</td><td class="hidden-col"></td></tr>`;
+    html += `<tr><td colspan="8" style="text-align:left;font-size:12px;background:#fcfcfc;padding:4px 8px;">石家庄长安门诊部 ：河北省石家庄市长安区东大街9号</td><td class="hidden-col"></td></tr>`;
+    const blob = new Blob([html], {type: 'application/vnd.ms-excel;charset=utf-8'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '体检套餐.xls';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+document.getElementById('downloadBtn').addEventListener('click', downloadPackage);
+
+// ============================================================
+// 搜索下拉
+// ============================================================
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+let searchItems = [];
+let activeIndex = -1;
+
+function renderSearchResults(query) {
+    const all = getAllItems();
+    let matches = all.filter(item => {
+        if(item.id && item.id.startsWith('free_')) return false;
+        if(selectedIds.includes(item.uid)) return false;
+        if(!hasPrice(item)) return false;
+        const q = query.toLowerCase().trim();
+        if(!q) return true;
+        return item.name.toLowerCase().includes(q) || (item.id && item.id.toLowerCase().includes(q)) || (Array.isArray(item.items)&&item.items.some(i=>i.toLowerCase().includes(q)));
+    });
+    searchItems = matches;
+    activeIndex = -1;
+    if(matches.length===0) {
+        searchResults.innerHTML = `<div class="item" style="color:#7a95b0;cursor:default;justify-content:center;background:transparent;border:none;">没有匹配的项目</div>`;
+        return;
+    }
+    let html = '';
+    const q = query.trim().toLowerCase();
+    matches.forEach(item => {
+        const priceStr = [];
+        if(item.priceM!==null&&item.priceM!==undefined) priceStr.push(`男¥${item.priceM}`);
+        if(item.priceF!==null&&item.priceF!==undefined) priceStr.push(`未婚¥${item.priceF}`);
+        if(item.priceFM!==null&&item.priceFM!==undefined) priceStr.push(`已婚¥${item.priceFM}`);
+        let nameDisplay = item.name;
+        if (q) {
+            const regex = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+            nameDisplay = item.name.replace(regex, match => `<span class="highlight">${match}</span>`);
+        }
+        html += `<div class="item" data-uid="${item.uid}">
+            <div class="name">${nameDisplay}</div>
+            <div class="price-tag">${priceStr.join(' ')}</div>
+            <div class="code">${item.id}</div>
+        </div>`;
+    });
+    searchResults.innerHTML = html;
+    searchResults.querySelectorAll('.item').forEach(el => {
+        el.addEventListener('click', function() {
+            const uid = this.dataset.uid;
+            addItemByUid(uid);
+            searchInput.value = '';
+            searchResults.classList.remove('show');
+        });
+    });
+    const items = searchResults.querySelectorAll('.item');
+    if (items.length) {
+        items[0].classList.add('active');
+        activeIndex = 0;
+    }
+}
+
+searchInput.addEventListener('keydown', function(e) {
+    const items = searchResults.querySelectorAll('.item');
+    if (!items.length) return;
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (activeIndex < items.length - 1) {
+            if (activeIndex >= 0) items[activeIndex].classList.remove('active');
+            activeIndex++;
+            items[activeIndex].classList.add('active');
+            items[activeIndex].scrollIntoView({ block: 'nearest' });
+        }
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (activeIndex > 0) {
+            items[activeIndex].classList.remove('active');
+            activeIndex--;
+            items[activeIndex].classList.add('active');
+            items[activeIndex].scrollIntoView({ block: 'nearest' });
+        }
+    } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (activeIndex >= 0 && activeIndex < items.length) {
+            const uid = items[activeIndex].dataset.uid;
+            addItemByUid(uid);
+            searchInput.value = '';
+            searchResults.classList.remove('show');
+        }
+    } else if (e.key === 'Escape') {
+        searchResults.classList.remove('show');
+        searchInput.blur();
+    }
+});
+
+searchInput.addEventListener('input', function() {
+    const q = this.value;
+    renderSearchResults(q);
+    if (q.trim() === '') renderSearchResults('');
+    searchResults.classList.add('show');
+});
+searchInput.addEventListener('focus', function() {
+    if (this.value.trim() === '') renderSearchResults('');
+    searchResults.classList.add('show');
+});
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.search-box')) searchResults.classList.remove('show');
+});
+
+function updatePrice(input) {
+    const uid = input.dataset.uid;
+    const gender = input.dataset.gender;
+    const val = parseFloat(input.value);
+    const item = projects.find(p => p.uid === uid);
+    if (!item) return;
+    const num = isNaN(val) ? null : val;
+    if(gender === 'M') item.priceM = num;
+    else if(gender === 'F') item.priceF = num;
+    else if(gender === 'FM') item.priceFM = num;
+    renderPackageFooter();
+    CloudSync.scheduleSave(getAppState());
+}
+function calculateTotals(items) { let m=0,f=0,fa=0; items.forEach(item=>{ if(item.priceM!==null&&item.priceM!==undefined) m+=item.priceM; if(item.priceF!==null&&item.priceF!==undefined) f+=item.priceF; if(item.priceFM!==null&&item.priceFM!==undefined) fa+=item.priceFM; }); return {male:m, female:f, femaleMarried:fa}; }
+function calculateNoDiscountTotals(items) { let m=0,f=0,fa=0; items.forEach(item=>{ if(isNoDiscount(item)){ if(item.priceM!==null&&item.priceM!==undefined) m+=item.priceM; if(item.priceF!==null&&item.priceF!==undefined) f+=item.priceF; if(item.priceFM!==null&&item.priceFM!==undefined) fa+=item.priceFM; } }); return {male:m, female:f, femaleMarried:fa}; }
+
+// ============================================================
+// Tab切换及事件绑定
+// ============================================================
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const tab = this.dataset.tab;
+        if (!tab) return;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.getElementById('tab-'+tab).classList.add('active');
+    });
+});
+
+document.getElementById('rulesTabBtn').addEventListener('click', showRulesModal);
+document.getElementById('rulesCloseBtn').addEventListener('click', hideRulesModal);
+document.getElementById('rulesOverlay').addEventListener('click', function(e) { if (e.target === this) hideRulesModal(); });
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') hideRulesModal(); });
+
+document.getElementById('clearAllBtn').addEventListener('click', function() {
+    if (confirm('确定清空所有已选项目吗？')) {
+        selectedIds = [];
+        renderPackage();
+        showToast('已清空所有项目', 'info');
+        CloudSync.scheduleSave(getAppState());
+    }
+});
+document.getElementById('resetMasterBtn').addEventListener('click', function() {
+    if (confirm('将重置项目总表为默认数据，当前修改将丢失，确定吗？')) {
+        projects = JSON.parse(JSON.stringify(INIT_DATA));
+        projects.forEach((p, idx) => { p.uid = p.id + '_' + idx; });
+        selectedIds = selectedIds.filter(uid => projects.some(p => p.uid === uid));
+        renderMaster(document.getElementById('masterSearchInput').value);
+        renderPackage();
+        showToast('已恢复默认项目列表', 'info');
+        CloudSync.scheduleSave(getAppState());
+    }
+});
+document.getElementById('addMasterBtn').addEventListener('click', addProject);
+document.getElementById('masterSearchInput').addEventListener('input', function() { renderMaster(this.value); });
+document.getElementById('exportDataBtn').addEventListener('click', exportData);
+document.getElementById('importDataBtn').addEventListener('click', importData);
+
+document.getElementById('saveSchemeBtn').addEventListener('click', function() {
+    const name = prompt('请输入方案名称：');
+    if (name && name.trim()) saveCurrentScheme(name.trim());
+});
+document.getElementById('schemeSelect').addEventListener('change', function() {
+    const name = this.value;
+    if (name) loadScheme(name);
+});
+document.getElementById('deleteSchemeBtn').addEventListener('click', function() {
+    const select = document.getElementById('schemeSelect');
+    const name = select.value;
+    deleteScheme(name);
+});
+
+// ============================================================
+// ★★★ 应用初始化与自动云同步 ★★★
+// ============================================================
+async function initApp() {
+    const cloudData = await CloudSync.load();
+    if (cloudData) {
+        applyAppState(cloudData);
+        showToast('已从云端加载最新数据', 'success');
+    } else {
+        CloudSync.scheduleSave(getAppState());
+    }
+
+    renderRulesTable();
+    updateSchemeSelect();
+    renderMaster('');
+    renderPackage();
+
+    setInterval(async () => {
+        if (document.activeElement && document.activeElement.closest('#masterBody')) return;
+        const remoteData = await CloudSync.load();
+        if (remoteData) {
+            applyAppState(remoteData);
+            renderMaster(document.getElementById('masterSearchInput').value);
+            renderPackage();
+            updateSchemeSelect(); 
+            showToast('检测到其他设备的更新，已自动同步', 'info');
+        }
+    }, SYNC_CONFIG.syncInterval);
+}
+
+initApp();
+</script>
+</body>
+</html>
