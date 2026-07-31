@@ -10,6 +10,7 @@ export async function onRequestGet(context) {
     return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
 }
+
 export async function onRequestPost(context) {
   const { env, request } = context;
   try {
